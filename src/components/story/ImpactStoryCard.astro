@@ -25,7 +25,7 @@ const { title, date, location, summary, impact, slug, image, featured = false } 
   <div class="aspect-video bg-gray-200 flex items-center justify-center relative">
     {
       image ? (
-        <img src={image} alt={title} class="w-full h-full object-cover" />
+        <img src={image} alt={title} class="w-full h-full object-cover" loading="lazy" />
       ) : (
         <span class="text-4xl" aria-hidden="true">
           📸
