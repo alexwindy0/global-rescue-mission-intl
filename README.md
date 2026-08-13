@@ -7,11 +7,11 @@ A zero-cost, high-performance, accessible website for evangelism, fundraising, a
 - **Framework:** Astro v5 (Zero-JS by default)
 - **Styling:** Tailwind CSS v3
 - **Content:** MDX with TypeScript collections
-- **CMS:** Decap CMS (Git-based, browser UI)
+- **CMS:** Custom admin dashboard (Netlify Identity + GitHub-backed content updates)
 - **Hosting:** Netlify (Global CDN)
 - **Animations:** AOS (Animate On Scroll)
 - **Forms:** Netlify Forms (serverless)
-- **Auth:** Netlify Identity + Git Gateway
+- **Auth:** Netlify Identity + custom admin dashboard
 - **Analytics:** Google Analytics via GTM
 
 ## Prerequisites
@@ -39,22 +39,23 @@ npm run build
 # Output in dist/
 ```
 
-## Content Management (Decap CMS)
+## Content Management (Custom Admin)
 
 1. Navigate to `https://globalrescuemission.org/admin`
-2. Log in with your Netlify Identity credentials (invite-only)
-3. Create or edit content via the browser UI
-4. Save changes — Decap CMS commits to a new branch
-5. Review the Deploy Preview URL
-6. Publish to merge to `main` and deploy to production
+2. Log in with your Netlify Identity credentials
+3. Configure the environment values for the custom CMS save function in Netlify
+4. Visit `/admin` to manage page content from the browser UI
+5. Save changes — the admin writes directly to the GitHub repository through the secure Netlify function
+6. Review the Deploy Preview URL
+7. Publish to merge to `main` and deploy to production
 
 ## Branching Strategy
 
-| Branch | Purpose |
-|:---|:---|
-| `main` | Production — always deployable |
-| `staging` | Pre-production testing |
-| `feature/*` | Short-lived feature branches |
+| Branch      | Purpose                        |
+| :---------- | :----------------------------- |
+| `main`      | Production — always deployable |
+| `staging`   | Pre-production testing         |
+| `feature/*` | Short-lived feature branches   |
 
 ## CI/CD Workflow
 
@@ -72,6 +73,7 @@ cp .env.example .env
 ```
 
 Required variables:
+
 - `PUBLIC_GTM_ID` — Google Tag Manager container ID
 - `PUBLIC_SENTRY_DSN` — Sentry error tracking DSN
 - `NETLIFY_AUTH_TOKEN` — For CD pipeline
@@ -95,14 +97,14 @@ public/           # Static assets
 
 ## Available Scripts
 
-| Script | Command | Description |
-|:---|:---|:---|
-| Dev | `npm run dev` | Start development server |
-| Build | `npm run build` | Build for production |
-| Preview | `npm run preview` | Preview production build |
-| Lint | `npm run lint` | Run ESLint |
-| Format | `npm run format:write` | Run Prettier |
-| Test | `npm run test:e2e` | Run Playwright E2E tests |
+| Script  | Command                | Description              |
+| :------ | :--------------------- | :----------------------- |
+| Dev     | `npm run dev`          | Start development server |
+| Build   | `npm run build`        | Build for production     |
+| Preview | `npm run preview`      | Preview production build |
+| Lint    | `npm run lint`         | Run ESLint               |
+| Format  | `npm run format:write` | Run Prettier             |
+| Test    | `npm run test:e2e`     | Run Playwright E2E tests |
 
 ## Accessibility
 

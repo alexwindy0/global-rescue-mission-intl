@@ -1,0 +1,429 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const pages = await getCollection('pages');
+const serializedPages = pages
+  .sort((a, b) => a.id.localeCompare(b.id))
+  .map((page) => ({
+    id: page.id,
+    title: page.data.title,
+    description: page.data.description,
+    draft: page.data.draft,
+    lastUpdated: page.data.lastUpdated
+      ? new Date(page.data.lastUpdated).toISOString().slice(0, 10)
+      : new Date().toISOString().slice(0, 10),
+    body: page.body,
+  }));
+---
+
+<BaseLayout title="Admin Dashboard" description="Manage website page content.">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <div class="min-h-screen bg-slate-950 px-4 py-10 text-white">
+    <div class="mx-auto max-w-7xl">
+      <header class="mb-8">
+        <div
+          class="mb-5 flex flex-col gap-3 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between"
+        >
+          <div>
+            <p class="text-xs uppercase tracking-[0.25em] text-amber-300">Custom CMS</p>
+            <h1 class="mt-2 text-3xl font-bold md:text-4xl">GRM Admin Dashboard</h1>
+          </div>
+          <div class="text-sm text-slate-300">
+            <span class="font-medium text-white">No Decap</span> • direct Astro content management
+          </div>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <div
+            class="rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-lg shadow-slate-950/30"
+          >
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Pages</p>
+            <div class="mt-3 flex items-end justify-between">
+              <span class="text-3xl font-bold text-white">{serializedPages.length}</span>
+              <span
+                class="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 text-[10px] font-medium text-emerald-300"
+                >Live</span
+              >
+            </div>
+          </div>
+
+          <div
+            class="rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-lg shadow-slate-950/30"
+          >
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Drafts</p>
+            <div class="mt-3 flex items-end justify-between">
+              <span class="text-3xl font-bold text-white"
+                >{serializedPages.filter((page) => page.draft).length}</span
+              >
+              <span
+                class="rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-1 text-[10px] font-medium text-amber-200"
+                >Review</span
+              >
+            </div>
+          </div>
+
+          <div
+            class="rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-lg shadow-slate-950/30"
+          >
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Access</p>
+            <div class="mt-3 flex items-end justify-between">
+              <span class="text-3xl font-bold text-white">Netlify</span>
+              <span
+                class="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2 py-1 text-[10px] font-medium text-cyan-200"
+                >Secure</span
+              >
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="mt-8 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+        <aside
+          class="rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-2xl shadow-slate-950/40"
+        >
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">Pages</h2>
+            <span
+              class="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-[10px] font-medium text-amber-200"
+            >
+              {serializedPages.length}
+            </span>
+          </div>
+          <nav id="page-list" class="space-y-2"></nav>
+        </aside>
+
+        <main
+          class="rounded-2xl border border-white/10 bg-slate-900/80 p-5 shadow-2xl shadow-slate-950/40"
+        >
+          <div
+            class="mb-5 flex flex-col gap-4 border-b border-white/10 pb-4 md:flex-row md:items-center md:justify-between"
+          >
+            <div>
+              <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Editing</p>
+              <h2 id="editor-title" class="mt-1 text-2xl font-bold text-white">Select a page</h2>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300"
+                >MDX</span
+              >
+              <span
+                class="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300"
+                >Live-ready</span
+              >
+            </div>
+          </div>
+
+          <form id="page-editor" class="space-y-5">
+            <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div class="flex items-center gap-2 text-sm text-slate-300">
+                <span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span>
+                Content workflow active
+              </div>
+
+              <div class="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  id="download-mdx"
+                  class="rounded-lg border border-slate-600 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-slate-500 hover:bg-slate-700"
+                >
+                  Download MDX
+                </button>
+                <button
+                  type="submit"
+                  id="save-page"
+                  class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-400"
+                >
+                  Save page
+                </button>
+              </div>
+            </div>
+
+            <div class="grid gap-5 md:grid-cols-2">
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-300">Page title</span>
+                <input
+                  id="page-title"
+                  name="title"
+                  type="text"
+                  class="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-white outline-none transition focus:border-amber-400"
+                  placeholder="Page title"
+                />
+              </label>
+
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-300">Last updated</span>
+                <input
+                  id="page-last-updated"
+                  name="lastUpdated"
+                  type="date"
+                  class="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-white outline-none transition focus:border-amber-400"
+                />
+              </label>
+            </div>
+
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium text-slate-300">Description</span>
+              <textarea
+                id="page-description"
+                name="description"
+                rows="3"
+                class="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-white outline-none transition focus:border-amber-400"
+                placeholder="Short page description"></textarea>
+            </label>
+
+            <label
+              class="inline-flex items-center gap-3 rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-sm text-slate-200"
+            >
+              <input
+                id="page-draft"
+                name="draft"
+                type="checkbox"
+                class="h-4 w-4 accent-amber-500"
+              />
+              Draft mode
+            </label>
+
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium text-slate-300">Body content (MDX)</span>
+              <textarea
+                id="page-body"
+                name="body"
+                rows="18"
+                class="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 font-mono text-sm text-slate-100 outline-none transition focus:border-amber-400"
+              ></textarea>
+            </label>
+
+            <div
+              id="save-status"
+              class="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100"
+            >
+              Select a page to begin updating content.
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script
+    type="application/json"
+    id="admin-pages-data"
+    set:html={JSON.stringify(serializedPages)}
+  />
+
+  <script>
+    const rawData = document.getElementById('admin-pages-data');
+    const pages = JSON.parse(rawData?.textContent || '[]');
+    const pageListEl = document.getElementById('page-list');
+    const form = document.getElementById('page-editor');
+    const titleInput = document.getElementById('page-title');
+    const descriptionInput = document.getElementById('page-description');
+    const lastUpdatedInput = document.getElementById('page-last-updated');
+    const draftInput = document.getElementById('page-draft');
+    const bodyInput = document.getElementById('page-body');
+    const editorTitle = document.getElementById('editor-title');
+    const saveStatus = document.getElementById('save-status');
+    const downloadButton = document.getElementById('download-mdx');
+
+    let selectedId = pages[0]?.id || '';
+    let netlifyUser = null;
+
+    function escapeYaml(value) {
+      return JSON.stringify(String(value || ''));
+    }
+
+    function buildMdxContent(data) {
+      const body = data.body || '';
+      const date = data.lastUpdated || new Date().toISOString().slice(0, 10);
+      return `---\ntitle: ${escapeYaml(data.title)}\ndescription: ${escapeYaml(data.description)}\nlastUpdated: ${date}\ndraft: ${data.draft ? 'true' : 'false'}\n---\n\n${body.trim()}\n`;
+    }
+
+    function getAuthToken() {
+      const user = window.netlifyIdentity?.currentUser?.();
+      if (!user || !user.token || !user.token.access_token) {
+        return null;
+      }
+      return user.token.access_token;
+    }
+
+    function renderPageList() {
+      if (!pageListEl) return;
+
+      pageListEl.innerHTML = pages
+        .map(
+          (page) => `
+            <button
+              type="button"
+              data-page-id="${page.id}"
+              class="page-option w-full rounded-xl border px-3 py-2.5 text-left transition ${
+                page.id === selectedId
+                  ? 'border-amber-400 bg-amber-500/10 text-amber-100'
+                  : 'border-slate-700 bg-slate-950/40 text-slate-200 hover:border-slate-500 hover:bg-slate-800/60'
+              }"
+            >
+              <div class="flex items-center justify-between gap-3">
+                <span class="truncate font-medium">${page.title}</span>
+                ${page.draft ? '<span class="rounded-full bg-slate-700 px-2 py-0.5 text-[9px] uppercase tracking-wide text-slate-200">Draft</span>' : ''}
+              </div>
+              <div class="mt-1 text-xs text-slate-400">/${page.id}</div>
+            </button>
+          `
+        )
+        .join('');
+
+      pageListEl.querySelectorAll('.page-option').forEach((button) => {
+        button.addEventListener('click', () => {
+          selectedId = button.getAttribute('data-page-id');
+          renderPageList();
+          loadPage(selectedId);
+        });
+      });
+    }
+
+    function loadPage(pageId) {
+      const page = pages.find((entry) => entry.id === pageId) || pages[0];
+      if (!page) return;
+
+      selectedId = page.id;
+
+      if (titleInput) titleInput.value = page.title || '';
+      if (descriptionInput) descriptionInput.value = page.description || '';
+      if (lastUpdatedInput)
+        lastUpdatedInput.value = page.lastUpdated || new Date().toISOString().slice(0, 10);
+      if (draftInput) draftInput.checked = Boolean(page.draft);
+      if (bodyInput) bodyInput.value = page.body || '';
+      if (editorTitle) editorTitle.textContent = page.title;
+
+      if (saveStatus) {
+        saveStatus.textContent = window.netlifyIdentity?.currentUser?.()
+          ? `Editing ${page.id}. Authenticated and ready to save.`
+          : `Editing ${page.id}. Please log in to save updates.`;
+      }
+    }
+
+    function setLoginState() {
+      netlifyUser = window.netlifyIdentity?.currentUser?.();
+      if (saveStatus) {
+        saveStatus.textContent = netlifyUser
+          ? 'Authenticated through Netlify Identity. You can save page changes.'
+          : 'Not signed in. Please log in with Netlify Identity to save content edits.';
+      }
+    }
+
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', (user) => {
+        setLoginState();
+        if (!user) {
+          window.netlifyIdentity.open('login');
+        }
+      });
+
+      window.netlifyIdentity.on('login', () => {
+        setLoginState();
+      });
+
+      window.netlifyIdentity.on('logout', () => {
+        setLoginState();
+      });
+
+      window.netlifyIdentity.init();
+    }
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const token = getAuthToken();
+      if (!token) {
+        if (saveStatus) {
+          saveStatus.textContent =
+            'Authentication required. Please log in with Netlify Identity before saving.';
+        }
+        window.netlifyIdentity?.open('login');
+        return;
+      }
+
+      const payload = {
+        id: selectedId,
+        title: titleInput?.value || '',
+        description: descriptionInput?.value || '',
+        lastUpdated: lastUpdatedInput?.value || new Date().toISOString().slice(0, 10),
+        draft: draftInput?.checked || false,
+        body: bodyInput?.value || '',
+      };
+
+      const localKey = `grm-admin-page-${payload.id}`;
+      localStorage.setItem(localKey, JSON.stringify(payload));
+
+      if (saveStatus) {
+        saveStatus.textContent = 'Authenticated save in progress…';
+      }
+
+      try {
+        const response = await fetch('/.netlify/functions/update-page', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result?.error || 'Function rejected the save');
+        }
+
+        if (saveStatus) {
+          saveStatus.textContent =
+            result?.message || 'Page saved successfully through Netlify function.';
+        }
+      } catch (error) {
+        const fileContents = buildMdxContent(payload);
+        const blob = new Blob([fileContents], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `${payload.id}.mdx`;
+        anchor.click();
+        URL.revokeObjectURL(url);
+
+        if (saveStatus) {
+          saveStatus.textContent = `${error instanceof Error ? error.message : 'Save failed'}. A local MDX file was downloaded instead.`;
+        }
+      }
+    });
+
+    downloadButton?.addEventListener('click', () => {
+      const payload = {
+        id: selectedId,
+        title: titleInput?.value || '',
+        description: descriptionInput?.value || '',
+        lastUpdated: lastUpdatedInput?.value || new Date().toISOString().slice(0, 10),
+        draft: draftInput?.checked || false,
+        body: bodyInput?.value || '',
+      };
+
+      const fileContents = buildMdxContent(payload);
+      const blob = new Blob([fileContents], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `${payload.id}.mdx`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+
+      if (saveStatus) {
+        saveStatus.textContent = `Downloaded ${payload.id}.mdx to your browser for manual save into the project.`;
+      }
+    });
+
+    renderPageList();
+    if (pages.length > 0) {
+      loadPage(selectedId || pages[0].id);
+    }
+  </script>
+</BaseLayout>
