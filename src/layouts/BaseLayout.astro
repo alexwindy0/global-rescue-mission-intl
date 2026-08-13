@@ -113,6 +113,21 @@ const pageTitle = title.includes('Global Rescue Mission')
 
     <Footer />
 
+    <!-- Sentry Error Tracking -->
+    <script>
+      import * as Sentry from '@sentry/browser';
+
+      if (import.meta.env.PUBLIC_SENTRY_DSN && import.meta.env.PROD) {
+        Sentry.init({
+          dsn: import.meta.env.PUBLIC_SENTRY_DSN,
+          environment: 'production',
+          tracesSampleRate: 0.1,
+          replaysSessionSampleRate: 0.1,
+          replaysOnErrorSampleRate: 1.0,
+        });
+      }
+    </script>
+
     <!-- AOS Initialization -->
     <script>
       import AOS from 'aos';

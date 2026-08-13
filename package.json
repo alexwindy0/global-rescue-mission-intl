@@ -28,6 +28,7 @@
     "@astrojs/mdx": "^4.3.14",
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/tailwind": "^5.1.5",
+    "@sentry/browser": "^10.70.0",
     "aos": "^2.3.4",
     "astro": "^5.18.2",
     "date-fns": "^4.4.0",
