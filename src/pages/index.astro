@@ -5,11 +5,16 @@ import CTAButton from '@components/ui/CTAButton.astro';
 import LivelyScrollAnimation from '@components/ui/LivelyScrollAnimation.astro';
 import DailyPrayerSummary from '@components/prayer/DailyPrayerSummary.astro';
 import ImpactStoryCard from '@components/story/ImpactStoryCard.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 
-const title = 'Global Rescue Mission Intl.';
-const description =
-  'Bringing hope, aid, and the Gospel to communities in crisis around the world. Join us in making a difference.';
+const page = await getEntry('pages', 'home');
+if (!page) {
+  throw new Error('Home page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 
 const stories = await getCollection('stories');
 const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
@@ -139,6 +144,12 @@ const heroSlides = [
       </a>
     </div>
   </section>
+
+  <SectionWrapper>
+    <article class="prose prose-lg max-w-4xl mx-auto text-center" data-aos="fade-up">
+      <Content />
+    </article>
+  </SectionWrapper>
 
   <!-- Mission Stats -->
   <SectionWrapper background="white" padding="md">

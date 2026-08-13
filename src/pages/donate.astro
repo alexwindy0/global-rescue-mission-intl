@@ -2,14 +2,24 @@
 import DonationLayout from '@layouts/DonationLayout.astro';
 import BankTransferInstructions from '@components/donation/BankTransferInstructions.astro';
 import ProofOfTransferForm from '@components/donation/ProofOfTransferForm.astro';
+import { getEntry } from 'astro:content';
 
-const title = 'Donate';
-const description =
-  'Support Global Rescue Mission International. Every donation brings hope to communities in crisis.';
+const page = await getEntry('pages', 'donate');
+if (!page) {
+  throw new Error('Donation page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 ---
 
 <DonationLayout title={title} description={description}>
   <div class="max-w-4xl mx-auto space-y-12">
+    <article class="prose prose-lg max-w-4xl mx-auto text-center mb-8" data-aos="fade-up">
+      <Content />
+    </article>
+
     <!-- Giving Options -->
     <div class="text-center mb-12" data-aos="fade-up">
       <h2 class="text-3xl font-bold text-gray-900 mb-4">Ways to Give</h2>

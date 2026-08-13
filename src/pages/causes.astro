@@ -2,10 +2,16 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
 import CTAButton from '@components/ui/CTAButton.astro';
+import { getEntry } from 'astro:content';
 
-const title = 'Our Causes';
-const description =
-  'Explore the causes we support — from emergency relief to education and healthcare.';
+const page = await getEntry('pages', 'causes');
+if (!page) {
+  throw new Error('Causes page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 
 const causes = [
   {
@@ -68,6 +74,9 @@ const causes = [
   </SectionWrapper>
 
   <SectionWrapper>
+    <article class="prose prose-lg max-w-4xl mx-auto text-center mb-10" data-aos="fade-up">
+      <Content />
+    </article>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {
         causes.map((cause, i) => (

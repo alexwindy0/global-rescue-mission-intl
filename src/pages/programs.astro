@@ -1,9 +1,16 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
+import { getEntry } from 'astro:content';
 
-const title = 'Our Programs';
-const description = 'Discover our ongoing programs and initiatives around the world.';
+const page = await getEntry('pages', 'programs');
+if (!page) {
+  throw new Error('Programs page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 
 const programs = [
   {
@@ -46,6 +53,9 @@ const programs = [
   </SectionWrapper>
 
   <SectionWrapper>
+    <article class="prose prose-lg max-w-4xl mx-auto text-center mb-12" data-aos="fade-up">
+      <Content />
+    </article>
     <div class="space-y-16 max-w-4xl mx-auto">
       {
         programs.map((program, i) => (

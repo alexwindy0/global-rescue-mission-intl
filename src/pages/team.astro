@@ -2,10 +2,16 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
 import teamData from '../data/team-members.json';
+import { getEntry } from 'astro:content';
 
-const title = 'Our Team';
-const description =
-  'Meet the dedicated leaders and volunteers behind Global Rescue Mission International.';
+const page = await getEntry('pages', 'team');
+if (!page) {
+  throw new Error('Team page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -17,6 +23,9 @@ const description =
   </SectionWrapper>
 
   <SectionWrapper>
+    <article class="prose prose-lg max-w-4xl mx-auto text-center mb-12" data-aos="fade-up">
+      <Content />
+    </article>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {
         teamData.members.map((member, i) => (

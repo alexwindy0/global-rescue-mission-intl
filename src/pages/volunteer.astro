@@ -2,10 +2,16 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
 import VolunteerSignup from '@components/forms/VolunteerSignup.astro';
+import { getEntry } from 'astro:content';
 
-const title = 'Volunteer With Us';
-const description =
-  'Join our global network of volunteers and make a direct impact in communities in crisis.';
+const page = await getEntry('pages', 'volunteer');
+if (!page) {
+  throw new Error('Volunteer page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -17,6 +23,9 @@ const description =
   </SectionWrapper>
 
   <SectionWrapper>
+    <article class="prose prose-lg max-w-4xl mx-auto text-center mb-12" data-aos="fade-up">
+      <Content />
+    </article>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
       <div data-aos="fade-right">
         <h2 class="text-3xl font-bold text-gray-900 mb-6">Why Volunteer?</h2>
