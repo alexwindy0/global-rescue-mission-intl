@@ -12,6 +12,19 @@
     --color-text-light: #6b7280;
     --color-background: #ffffff;
     --color-background-alt: #f3f4f6;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f9fafb;
+    --color-border: #e5e7eb;
+  }
+
+  .dark {
+    --color-text: #f3f4f6;
+    --color-text-light: #9ca3af;
+    --color-background: #0f172a;
+    --color-background-alt: #1e293b;
+    --color-surface: #1e293b;
+    --color-surface-alt: #334155;
+    --color-border: #334155;
   }
 
   html {
@@ -19,8 +32,11 @@
   }
 
   body {
-    @apply text-gray-900 antialiased;
+    @apply antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -35,6 +51,7 @@
   p { @apply leading-relaxed; }
 
   a { @apply text-blue-700 hover:text-blue-900 transition-colors; }
+  .dark a { @apply text-blue-400 hover:text-blue-300; }
 
   img { @apply max-w-full h-auto; }
 }
@@ -46,6 +63,16 @@
 
   .section-padding {
     @apply py-16 md:py-24;
+  }
+
+  .theme-toggle {
+    @apply relative inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors;
+    @apply hover:bg-gray-100 dark:hover:bg-gray-700;
+    @apply text-gray-600 dark:text-gray-300;
+  }
+
+  .theme-toggle:focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-500;
   }
 }
 

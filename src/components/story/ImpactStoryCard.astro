@@ -17,19 +17,22 @@ const { title, date, location, summary, impact, slug, image, featured = false } 
 
 <article
   class={`
-  bg-white rounded-xl overflow-hidden border transition-shadow
-  ${featured ? 'border-amber-300 shadow-lg' : 'border-gray-100 hover:shadow-md'}
+  bg-white dark:bg-gray-800 rounded-xl overflow-hidden border transition-all
+  ${featured ? 'border-amber-300 shadow-lg' : 'border-gray-100 dark:border-gray-700 hover:shadow-md'}
 `}
   data-aos="fade-up"
 >
-  <div class="aspect-video bg-gray-200 flex items-center justify-center relative">
+  <div class="aspect-video bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
     {
       image ? (
         <img src={image} alt={title} class="w-full h-full object-cover" loading="lazy" />
       ) : (
-        <span class="text-4xl" aria-hidden="true">
-          📸
-        </span>
+        <img
+          src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=600&q=80"
+          alt={title}
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
       )
     }
     {
@@ -42,26 +45,32 @@ const { title, date, location, summary, impact, slug, image, featured = false } 
   </div>
   <div class="p-6">
     <div class="flex items-center gap-3 mb-3">
-      <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">Story</span>
-      <span class="text-sm text-gray-500">📍 {location}</span>
-      <time class="text-sm text-gray-500" datetime={date.toISOString()}
+      <span
+        class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs font-semibold rounded"
+        >Story</span
+      >
+      <span class="text-sm text-gray-500 dark:text-gray-400">{location}</span>
+      <time class="text-sm text-gray-500 dark:text-gray-400" datetime={date.toISOString()}
         >{formatDateShort(date)}</time
       >
     </div>
-    <h3 class="text-xl font-bold text-gray-900 mb-2">
-      <a href={`/blog/stories/${slug}`} class="hover:text-blue-700 transition-colors">
+    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+      <a
+        href={`/blog/stories/${slug}`}
+        class="hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
+      >
         {title}
       </a>
     </h3>
-    <p class="text-gray-600 text-sm mb-4 line-clamp-3">{summary}</p>
-    <div class="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r-lg">
-      <p class="text-sm text-amber-800 font-medium">Impact: {impact}</p>
+    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">{summary}</p>
+    <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-3 rounded-r-lg">
+      <p class="text-sm text-amber-800 dark:text-amber-400 font-medium">Impact: {impact}</p>
     </div>
     <a
       href={`/blog/stories/${slug}`}
-      class="text-blue-600 text-sm font-medium mt-4 inline-block hover:underline"
+      class="text-blue-600 dark:text-blue-400 text-sm font-medium mt-4 inline-block hover:underline"
     >
-      Read full story →
+      Read full story &rarr;
     </a>
   </div>
 </article>

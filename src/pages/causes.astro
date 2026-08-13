@@ -13,40 +13,46 @@ const causes = [
     description:
       'When disaster strikes, we respond within 72 hours with food, water, shelter, and medical aid.',
     impact: 'Responded to 15 disasters in 2025, aiding 50,000+ people.',
-    icon: '🆘',
+    image:
+      'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Education',
     description:
       'We build schools, train teachers, and provide scholarships to break the cycle of poverty.',
     impact: '12 schools built, 3,000+ students enrolled, 150 teachers trained.',
-    icon: '📚',
+    image:
+      'https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Healthcare',
     description:
       'Mobile clinics, medical supplies, and health education for communities without access.',
     impact: '25,000+ patients treated, 5 clinics established.',
-    icon: '🏥',
+    image:
+      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Clean Water',
     description: 'Drilling wells and installing filtration systems to provide safe drinking water.',
     impact: '150 wells drilled, 75,000+ people with clean water access.',
-    icon: '💧',
+    image:
+      'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Food Security',
     description: 'Sustainable agriculture training and emergency food distribution.',
     impact: '200 tons of food distributed, 500 farmers trained.',
-    icon: '🌾',
+    image:
+      'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Evangelism',
     description:
       'Sharing the Gospel through community outreach, Bible distribution, and church planting.',
     impact: '100,000+ Bibles distributed, 50 churches planted.',
-    icon: '✝️',
+    image:
+      'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=600&q=80',
   },
 ];
 ---
@@ -66,16 +72,23 @@ const causes = [
       {
         causes.map((cause, i) => (
           <div
-            class="bg-white rounded-xl p-8 shadow-sm border border-gray-100 hover:border-blue-200 transition-colors"
+            class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-600 transition-all"
             data-aos="fade-up"
             data-aos-delay={i * 100}
           >
-            <div class="text-4xl mb-4" aria-hidden="true">
-              {cause.icon}
+            <div class="aspect-video overflow-hidden">
+              <img
+                src={cause.image}
+                alt={cause.title}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">{cause.title}</h2>
-            <p class="text-gray-600 mb-4">{cause.description}</p>
-            <p class="text-sm text-blue-600 font-medium">{cause.impact}</p>
+            <div class="p-8">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">{cause.title}</h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">{cause.description}</p>
+              <p class="text-sm text-blue-600 dark:text-blue-400 font-medium">{cause.impact}</p>
+            </div>
           </div>
         ))
       }

@@ -6,6 +6,7 @@ const footerLinks = {
     { href: '/about', label: 'About Us' },
     { href: '/causes', label: 'Our Causes' },
     { href: '/programs', label: 'Programs' },
+    { href: '/team', label: 'Our Team' },
     { href: '/blog', label: 'Stories & Updates' },
   ],
   engage: [
@@ -20,10 +21,9 @@ const footerLinks = {
 };
 ---
 
-<footer class="bg-gray-900 text-gray-300" role="contentinfo">
+<footer class="bg-gray-900 dark:bg-gray-950 text-gray-300 transition-colors" role="contentinfo">
   <div class="container-grm py-12 md:py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <!-- Brand -->
       <div class="lg:col-span-1">
         <a href="/" class="flex items-center space-x-2 text-xl font-bold text-white mb-4">
           <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -77,7 +77,6 @@ const footerLinks = {
         </div>
       </div>
 
-      <!-- Mission Links -->
       <div>
         <h3 class="text-white font-semibold mb-4">Mission</h3>
         <ul class="space-y-2">
@@ -96,7 +95,6 @@ const footerLinks = {
         </ul>
       </div>
 
-      <!-- Engage Links -->
       <div>
         <h3 class="text-white font-semibold mb-4">Get Involved</h3>
         <ul class="space-y-2">
@@ -115,7 +113,6 @@ const footerLinks = {
         </ul>
       </div>
 
-      <!-- Legal Links -->
       <div>
         <h3 class="text-white font-semibold mb-4">Legal</h3>
         <ul class="space-y-2">
@@ -136,7 +133,7 @@ const footerLinks = {
     </div>
 
     <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-500">
-      <p>© {currentYear} Global Rescue Mission International. All rights reserved.</p>
+      <p>&copy; {currentYear} Global Rescue Mission International. All rights reserved.</p>
       <p class="mt-2">A 501(c)(3) nonprofit organization. EIN: XX-XXXXXXX</p>
     </div>
   </div>

@@ -3,32 +3,38 @@
     {
       "name": "Pastor John Doe",
       "role": "Founder & CEO",
-      "bio": "With over 20 years of missionary experience, Pastor John founded GRM with a vision to reach the unreachable."
+      "bio": "With over 20 years of missionary experience, Pastor John founded GRM with a vision to reach the unreachable.",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
     },
     {
       "name": "Sarah Johnson",
       "role": "Director of Operations",
-      "bio": "Sarah oversees all field operations and ensures every project meets our high standards of impact."
+      "bio": "Sarah oversees all field operations and ensures every project meets our high standards of impact.",
+      "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
     },
     {
       "name": "Michael Chen",
       "role": "Finance Director",
-      "bio": "Michael brings 15 years of nonprofit financial management expertise to ensure transparent stewardship."
+      "bio": "Michael brings 15 years of nonprofit financial management expertise to ensure transparent stewardship.",
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
     },
     {
       "name": "Dr. Amina Okafor",
       "role": "Medical Director",
-      "bio": "Dr. Amina leads our mobile clinic initiatives across sub-Saharan Africa."
+      "bio": "Dr. Amina leads our mobile clinic initiatives across sub-Saharan Africa.",
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80"
     },
     {
       "name": "David Kim",
       "role": "Communications Director",
-      "bio": "David manages our storytelling and donor relations, connecting supporters to the field."
+      "bio": "David manages our storytelling and donor relations, connecting supporters to the field.",
+      "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
     },
     {
       "name": "Rebecca Martinez",
       "role": "Volunteer Coordinator",
-      "bio": "Rebecca recruits, trains, and deploys volunteers to mission fields worldwide."
+      "bio": "Rebecca recruits, trains, and deploys volunteers to mission fields worldwide.",
+      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80"
     }
   ]
 }
