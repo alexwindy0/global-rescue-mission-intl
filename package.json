@@ -1,0 +1,35 @@
+{
+  "name": "global-rescue-mission-intl",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/tailwind": "^5.1.5",
+    "aos": "^2.3.4",
+    "astro": "^5.18.2",
+    "date-fns": "^4.4.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/aos": "^3.0.8",
+    "@types/node": "^26.2.0",
+    "autoprefixer": "^10.5.4",
+    "axe-core": "^4.13.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "postcss": "^8.5.26",
+    "sharp": "^0.35.3",
+    "start-server-and-test": "^2.1.5",
+    "tailwindcss": "^3.4.19"
+  }
+}
