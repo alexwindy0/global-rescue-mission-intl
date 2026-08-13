@@ -1,9 +1,16 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
+import { getEntry } from 'astro:content';
 
-const title = 'Terms of Service';
-const description = 'Terms of service for using the Global Rescue Mission International website.';
+const page = await getEntry('pages', 'terms');
+if (!page) {
+  throw new Error('Terms page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 ---
 
 <BaseLayout title={title} description={description} noindex={true}>
@@ -14,24 +21,8 @@ const description = 'Terms of service for using the Global Rescue Mission Intern
   </SectionWrapper>
 
   <SectionWrapper>
-    <article class="prose prose-lg max-w-4xl mx-auto">
-      <p><strong>Last Updated:</strong> August 13, 2026</p>
-      <h2>1. Acceptance of Terms</h2>
-      <p>
-        By accessing and using this website, you accept and agree to be bound by these Terms of
-        Service...
-      </p>
-      <h2>2. Use of Website</h2>
-      <p>
-        This website is provided for informational purposes and to facilitate donations and
-        volunteer signups...
-      </p>
-      <h2>3. Donations</h2>
-      <p>All donations are final and non-refundable except as required by law...</p>
-      <h2>4. Intellectual Property</h2>
-      <p>All content on this website is the property of Global Rescue Mission International...</p>
-      <h2>5. Contact</h2>
-      <p>For questions about these terms, contact legal@globalrescuemission.org</p>
+    <article class="prose prose-lg max-w-4xl mx-auto" data-aos="fade-up">
+      <Content />
     </article>
   </SectionWrapper>
 </BaseLayout>

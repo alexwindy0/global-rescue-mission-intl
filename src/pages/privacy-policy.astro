@@ -1,10 +1,16 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
+import { getEntry } from 'astro:content';
 
-const title = 'Privacy Policy';
-const description =
-  'Global Rescue Mission International privacy policy and data handling practices.';
+const page = await getEntry('pages', 'privacy-policy');
+if (!page) {
+  throw new Error('Privacy policy page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 ---
 
 <BaseLayout title={title} description={description} noindex={true}>
@@ -15,27 +21,8 @@ const description =
   </SectionWrapper>
 
   <SectionWrapper>
-    <article class="prose prose-lg max-w-4xl mx-auto">
-      <p><strong>Last Updated:</strong> August 13, 2026</p>
-      <h2>1. Information We Collect</h2>
-      <p>
-        We collect information you provide directly to us, including name, email address, phone
-        number, and donation details...
-      </p>
-      <h2>2. How We Use Your Information</h2>
-      <p>
-        We use the information we collect to process donations, communicate updates, and improve our
-        services...
-      </p>
-      <h2>3. Information Sharing</h2>
-      <p>We do not sell, trade, or rent your personal information to third parties...</p>
-      <h2>4. Security</h2>
-      <p>We implement appropriate security measures to protect your personal information...</p>
-      <h2>5. Contact Us</h2>
-      <p>
-        If you have questions about this privacy policy, please contact us at
-        privacy@globalrescuemission.org
-      </p>
+    <article class="prose prose-lg max-w-4xl mx-auto" data-aos="fade-up">
+      <Content />
     </article>
   </SectionWrapper>
 </BaseLayout>

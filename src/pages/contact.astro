@@ -2,10 +2,16 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
 import ContactForm from '@components/forms/ContactForm.astro';
+import { getEntry } from 'astro:content';
 
-const title = 'Contact Us';
-const description =
-  'Get in touch with Global Rescue Mission International. We would love to hear from you.';
+const page = await getEntry('pages', 'contact');
+if (!page) {
+  throw new Error('Contact page content not found');
+}
+const { Content } = await page.render();
+
+const title = page.data.title;
+const description = page.data.description;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -14,6 +20,12 @@ const description =
       <h1 class="text-4xl md:text-5xl font-bold text-white">{title}</h1>
       <p class="text-blue-100 mt-4 text-lg">We are here to answer your questions</p>
     </div>
+  </SectionWrapper>
+
+  <SectionWrapper>
+    <article class="prose prose-lg max-w-3xl mx-auto text-gray-700" data-aos="fade-up">
+      <Content />
+    </article>
   </SectionWrapper>
 
   <SectionWrapper>
