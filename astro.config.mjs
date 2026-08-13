@@ -6,9 +6,5 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://globalrescuemission.org',
-  integrations: [
-    tailwind(),
-    mdx(),
-    sitemap(),
-  ],
+  integrations: [tailwind(), mdx(), sitemap()],
 });
