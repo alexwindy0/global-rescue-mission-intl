@@ -144,5 +144,16 @@ const pageTitle = title.includes('Global Rescue Mission')
         });
       });
     </script>
+
+    <script is:inline>
+      const hash = window.location.hash || '';
+      const isInviteToken = hash.includes('invite_token=');
+      const isAdminRoute = window.location.pathname.startsWith('/admin/');
+
+      if (isInviteToken && !isAdminRoute) {
+        const target = '/admin/' + hash;
+        window.location.replace(target);
+      }
+    </script>
   </body>
 </html>
