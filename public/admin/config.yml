@@ -13,7 +13,7 @@ publish_mode: editorial_workflow
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
-site_url: https://globalrescuemission.org
+site_url: https://global-rescue-mission-intl.netlify.app/
 
 collections:
   - name: "prayers"
