@@ -1,0 +1,62 @@
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: "content: create {{collection}} '{{slug}}'"
+    update: "content: update {{collection}} '{{slug}}'"
+    delete: "content: delete {{collection}} '{{slug}}'"
+    uploadMedia: "content: upload '{{path}}'"
+    deleteMedia: "content: delete '{{path}}'"
+
+publish_mode: editorial_workflow
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+site_url: https://globalrescuemission.org
+
+collections:
+  - name: "prayers"
+    label: "Prayers"
+    folder: "src/content/prayers"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Date", name: "date", widget: "datetime", required: true }
+      - { label: "Author", name: "author", widget: "string", required: true }
+      - { label: "Summary", name: "summary", widget: "text", required: true }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown", required: true }
+
+  - name: "stories"
+    label: "Impact Stories"
+    folder: "src/content/stories"
+    create: true
+    slug: "{{year}}-q{{quarter}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Date", name: "date", widget: "datetime", required: true }
+      - { label: "Location", name: "location", widget: "string", required: true }
+      - { label: "Author", name: "author", widget: "string", required: true }
+      - { label: "Summary", name: "summary", widget: "text", required: true }
+      - { label: "Impact", name: "impact", widget: "text", required: true }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Gallery", name: "gallery", widget: "list", field: { widget: "image" }, default: [] }
+      - { label: "Body", name: "body", widget: "markdown", required: true }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "Last Updated", name: "lastUpdated", widget: "datetime", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: true }
