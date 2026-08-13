@@ -132,56 +132,119 @@ const currentPath = Astro.url.pathname;
           </svg>
         </button>
 
-        <!-- Mobile Menu Button -->
+        <!-- Mobile Menu Button with animated hamburger -->
         <button
           type="button"
-          class="p-2 rounded-md text-white hover:bg-white/10"
+          class="hamburger-btn relative w-10 h-10 flex items-center justify-center rounded-lg text-white hover:bg-white/10 transition-colors"
           aria-expanded="false"
           aria-controls="mobile-menu"
           id="mobile-menu-button"
         >
           <span class="sr-only">Open main menu</span>
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
+          <span
+            class="hamburger-line absolute w-5 h-0.5 bg-current rounded-full transition-all duration-300 ease-out"
+            style="top: 7px;"></span>
+          <span
+            class="hamburger-line absolute w-5 h-0.5 bg-current rounded-full transition-all duration-300 ease-out"
+            style="top: 11px;"></span>
+          <span
+            class="hamburger-line absolute w-5 h-0.5 bg-current rounded-full transition-all duration-300 ease-out"
+            style="top: 15px;"></span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Mobile Menu -->
+  <!-- Mobile Menu Overlay -->
   <div
-    class="hidden md:hidden bg-gray-900/95 backdrop-blur-sm border-t border-white/10"
+    class="mobile-overlay fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden opacity-0 pointer-events-none transition-opacity duration-300"
+    id="mobile-overlay"
+  >
+  </div>
+
+  <!-- Mobile Menu Panel -->
+  <div
+    class="mobile-menu-panel fixed top-0 right-0 bottom-0 w-72 max-w-[85vw] z-50 md:hidden transform translate-x-full transition-transform duration-300 ease-out"
     id="mobile-menu"
   >
-    <div class="container-grm py-2 space-y-1">
-      {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class={`
-            block px-3 py-2 rounded-md text-base font-medium
-            ${
-              link.highlight
-                ? 'bg-amber-500 text-white'
-                : 'text-white/90 hover:text-white hover:bg-white/10'
-            }
-          `}
-          >
-            {link.label}
-          </a>
-        ))
-      }
+    <div
+      class="h-full bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950 dark:from-gray-950 dark:via-gray-950 dark:to-black border-l border-white/10 shadow-2xl flex flex-col"
+    >
+      <!-- Menu Header -->
+      <div class="flex items-center justify-between px-5 h-16 border-b border-white/10">
+        <a href="/" class="flex items-center space-x-2 text-lg font-bold text-white">
+          <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+          <span>GRM Intl.</span>
+        </a>
+        <button
+          type="button"
+          class="mobile-close-btn w-9 h-9 flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+          aria-label="Close menu"
+          id="mobile-close-button"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="flex-1 overflow-y-auto py-4 px-3">
+        <ul class="space-y-1">
+          {
+            navLinks.map((link, i) => (
+              <li
+                class="mobile-nav-item opacity-0 translate-x-4"
+                style={`transition-delay: ${i * 50 + 50}ms;`}
+              >
+                <a
+                  href={link.href}
+                  class={`
+                    flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200
+                    ${
+                      link.highlight
+                        ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40'
+                        : currentPath === link.href
+                          ? 'text-white bg-white/15 shadow-sm'
+                          : 'text-white/80 hover:text-white hover:bg-white/10'
+                    }
+                  `}
+                >
+                  {link.label}
+                  {currentPath === link.href && (
+                    <span class="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400" />
+                  )}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Menu Footer -->
+      <div class="px-5 py-4 border-t border-white/10 space-y-3">
+        <a
+          href="/donate"
+          class="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-200"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+            ></path>
+          </svg>
+          Donate Now
+        </a>
+        <p class="text-center text-xs text-white/40">501(c)(3) Nonprofit &bull; EIN: XX-XXXXXXX</p>
+      </div>
     </div>
   </div>
 </nav>
@@ -199,17 +262,94 @@ const currentPath = Astro.url.pathname;
   .dark #main-nav.scrolled {
     background: rgba(2, 6, 23, 0.95);
   }
+
+  /* Hamburger to X animation */
+  .hamburger-btn.is-active .hamburger-line:nth-child(1) {
+    top: 11px;
+    transform: rotate(45deg);
+  }
+  .hamburger-btn.is-active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger-btn.is-active .hamburger-line:nth-child(3) {
+    top: 11px;
+    transform: rotate(-45deg);
+  }
+
+  /* Mobile nav items slide in */
+  .mobile-menu-panel.is-open ~ .mobile-overlay,
+  .mobile-menu-panel.is-open {
+    /* handled by JS adding classes */
+  }
+
+  .mobile-menu-panel.is-open .mobile-nav-item {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+
+  /* Scrollbar styling for mobile menu */
+  .mobile-menu-panel ::-webkit-scrollbar {
+    width: 4px;
+  }
+  .mobile-menu-panel ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .mobile-menu-panel ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+  }
 </style>
 
 <script>
   const menuButton = document.getElementById('mobile-menu-button');
   const menu = document.getElementById('mobile-menu');
+  const overlay = document.getElementById('mobile-overlay');
+  const closeButton = document.getElementById('mobile-close-button');
+
+  function openMenu() {
+    menuButton?.setAttribute('aria-expanded', 'true');
+    menuButton?.classList.add('is-active');
+    menu?.classList.remove('translate-x-full');
+    menu?.classList.add('is-open', 'translate-x-0');
+    overlay?.classList.remove('opacity-0', 'pointer-events-none');
+    overlay?.classList.add('opacity-100', 'pointer-events-auto');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    menuButton?.setAttribute('aria-expanded', 'false');
+    menuButton?.classList.remove('is-active');
+    menu?.classList.remove('is-open', 'translate-x-0');
+    menu?.classList.add('translate-x-full');
+    overlay?.classList.remove('opacity-100', 'pointer-events-auto');
+    overlay?.classList.add('opacity-0', 'pointer-events-none');
+    document.body.style.overflow = '';
+  }
+
   menuButton?.addEventListener('click', () => {
     const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', String(!isExpanded));
-    menu?.classList.toggle('hidden');
+    if (isExpanded) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
+  closeButton?.addEventListener('click', closeMenu);
+  overlay?.addEventListener('click', closeMenu);
+
+  // Close on link click
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  // Scroll effect for nav
   const nav = document.getElementById('main-nav');
   function handleScroll() {
     if (window.scrollY > 50) {
