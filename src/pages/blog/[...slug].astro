@@ -1,0 +1,33 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BlogLayout from '@layouts/BlogLayout.astro';
+
+export async function getStaticPaths() {
+  const prayers = await getCollection('prayers');
+  const stories = await getCollection('stories');
+  const allPosts = [...prayers, ...stories];
+
+  return allPosts.map((post) => ({
+    params: { slug: `${post.collection}/${post.slug}` },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'prayers'> | CollectionEntry<'stories'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogLayout
+  title={post.data.title}
+  description={post.data.summary}
+  date={post.data.date}
+  author={post.data.author}
+  image={post.data.image}
+  tags={post.data.tags}
+>
+  <Content />
+</BlogLayout>

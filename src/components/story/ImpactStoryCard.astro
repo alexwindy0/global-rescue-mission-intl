@@ -1,0 +1,67 @@
+---
+import { formatDateShort } from '@utils/date-formatter';
+
+interface Props {
+  title: string;
+  date: Date;
+  location: string;
+  summary: string;
+  impact: string;
+  slug: string;
+  image?: string;
+  featured?: boolean;
+}
+
+const { title, date, location, summary, impact, slug, image, featured = false } = Astro.props;
+---
+
+<article
+  class={`
+  bg-white rounded-xl overflow-hidden border transition-shadow
+  ${featured ? 'border-amber-300 shadow-lg' : 'border-gray-100 hover:shadow-md'}
+`}
+  data-aos="fade-up"
+>
+  <div class="aspect-video bg-gray-200 flex items-center justify-center relative">
+    {
+      image ? (
+        <img src={image} alt={title} class="w-full h-full object-cover" />
+      ) : (
+        <span class="text-4xl" aria-hidden="true">
+          📸
+        </span>
+      )
+    }
+    {
+      featured && (
+        <span class="absolute top-4 left-4 px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-full">
+          FEATURED STORY
+        </span>
+      )
+    }
+  </div>
+  <div class="p-6">
+    <div class="flex items-center gap-3 mb-3">
+      <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">Story</span>
+      <span class="text-sm text-gray-500">📍 {location}</span>
+      <time class="text-sm text-gray-500" datetime={date.toISOString()}
+        >{formatDateShort(date)}</time
+      >
+    </div>
+    <h3 class="text-xl font-bold text-gray-900 mb-2">
+      <a href={`/blog/stories/${slug}`} class="hover:text-blue-700 transition-colors">
+        {title}
+      </a>
+    </h3>
+    <p class="text-gray-600 text-sm mb-4 line-clamp-3">{summary}</p>
+    <div class="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r-lg">
+      <p class="text-sm text-amber-800 font-medium">Impact: {impact}</p>
+    </div>
+    <a
+      href={`/blog/stories/${slug}`}
+      class="text-blue-600 text-sm font-medium mt-4 inline-block hover:underline"
+    >
+      Read full story →
+    </a>
+  </div>
+</article>

@@ -1,0 +1,46 @@
+---
+import { formatDateShort } from '@utils/date-formatter';
+
+interface Props {
+  title: string;
+  date: Date;
+  summary: string;
+  slug: string;
+  featured?: boolean;
+}
+
+const { title, date, summary, slug, featured = false } = Astro.props;
+---
+
+<article
+  class={`
+  bg-white rounded-xl p-6 border transition-colors
+  ${featured ? 'border-blue-300 shadow-md' : 'border-gray-100 hover:border-blue-200'}
+`}
+  data-aos="fade-up"
+>
+  <div class="flex items-center gap-2 mb-3">
+    <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded">Prayer</span
+    >
+    {
+      featured && (
+        <span class="px-2 py-1 bg-amber-100 text-amber-800 text-xs font-semibold rounded">
+          Featured
+        </span>
+      )
+    }
+    <time class="text-sm text-gray-500" datetime={date.toISOString()}>{formatDateShort(date)}</time>
+  </div>
+  <h3 class="text-lg font-bold text-gray-900 mb-2">
+    <a href={`/blog/prayers/${slug}`} class="hover:text-blue-700 transition-colors">
+      {title}
+    </a>
+  </h3>
+  <p class="text-gray-600 text-sm line-clamp-3">{summary}</p>
+  <a
+    href={`/blog/prayers/${slug}`}
+    class="text-blue-600 text-sm font-medium mt-3 inline-block hover:underline"
+  >
+    Read prayer →
+  </a>
+</article>

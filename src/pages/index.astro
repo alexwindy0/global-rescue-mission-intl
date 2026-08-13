@@ -3,10 +3,16 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import SectionWrapper from '@components/ui/SectionWrapper.astro';
 import CTAButton from '@components/ui/CTAButton.astro';
 import LivelyScrollAnimation from '@components/ui/LivelyScrollAnimation.astro';
+import DailyPrayerSummary from '@components/prayer/DailyPrayerSummary.astro';
+import ImpactStoryCard from '@components/story/ImpactStoryCard.astro';
+import { getCollection } from 'astro:content';
 
 const title = 'Global Rescue Mission Intl.';
 const description =
   'Bringing hope, aid, and the Gospel to communities in crisis around the world. Join us in making a difference.';
+
+const stories = await getCollection('stories');
+const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -123,25 +129,9 @@ const description =
     </div>
   </SectionWrapper>
 
-  <!-- Daily Prayer CTA -->
-  <SectionWrapper background="blue">
-    <div class="text-center max-w-3xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" data-aos="fade-up">
-        Daily Prayer Summaries
-      </h2>
-      <p class="text-lg text-blue-100 mb-8" data-aos="fade-up" data-aos-delay="100">
-        Join our global prayer community. Every day at midnight, we publish a new prayer focus for
-        our mission fields.
-      </p>
-      <CTAButton
-        href="/blog"
-        variant="secondary"
-        size="lg"
-        class="bg-white text-blue-900 hover:bg-gray-100"
-      >
-        Read Today's Prayer
-      </CTAButton>
-    </div>
+  <!-- Daily Prayer -->
+  <SectionWrapper background="gray">
+    <DailyPrayerSummary />
   </SectionWrapper>
 
   <!-- Impact Stories Preview -->
@@ -153,6 +143,22 @@ const description =
       <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
         Real stories from the field. See how your support is changing lives around the world.
       </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {
+        featuredStories.map((story) => (
+          <ImpactStoryCard
+            title={story.data.title}
+            date={story.data.date}
+            location={story.data.location}
+            summary={story.data.summary}
+            impact={story.data.impact}
+            slug={story.slug}
+            image={story.data.image}
+            featured={story.data.featured}
+          />
+        ))
+      }
     </div>
     <div class="text-center mt-12" data-aos="fade-up">
       <CTAButton href="/blog" variant="outline">Read All Stories</CTAButton>
