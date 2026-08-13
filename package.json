@@ -9,7 +9,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint src --ext .js,.ts,.astro",
+    "format:check": "prettier --check 'src/**/*.{js,ts,astro,json,md,mdx}'",
+    "format:write": "prettier --write 'src/**/*.{js,ts,astro,json,md,mdx}'",
+    "test:e2e": "playwright test"
   },
   "lint-staged": {
     "*.{js,ts,astro}": [

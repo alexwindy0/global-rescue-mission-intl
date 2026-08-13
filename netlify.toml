@@ -1,0 +1,44 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  environment = { NODE_VERSION = "20" }
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# Redirect rules
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# Security headers applied via _headers file (see 3.1.2)
+# Do NOT duplicate CSP in netlify.toml — use _headers for granular control
+
+[context.production]
+  environment = { ASTRO_SITE_URL = "https://globalrescuemission.org" }
+
+[context.staging]
+  environment = { ASTRO_SITE_URL = "https://staging--globalrescuemission.netlify.app" }
+
+[context.deploy-preview]
+  environment = { ASTRO_SITE_URL = "https://deploy-preview--globalrescuemission.netlify.app" }

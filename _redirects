@@ -1,0 +1,5 @@
+# Blog pagination redirects
+/blog/page/1 /blog 301
+
+# Legacy URL support (add as needed)
+# /old-path /new-path 301

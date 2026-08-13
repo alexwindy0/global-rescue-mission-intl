@@ -1,0 +1,73 @@
+name: CI — Lint, Build, Test
+
+on:
+  push:
+    branches: [main, staging, 'feature/**']
+  pull_request:
+    branches: [main, staging]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier check
+        run: npm run format:check
+
+      - name: Check image compression
+        run: node scripts/check-image-sizes.js
+
+      - name: Build site
+        run: npm run build
+        env:
+          ASTRO_SITE_URL: https://deploy-preview--globalrescuemission.netlify.app
+
+      - name: Smoke test — verify build output
+        run: |
+          test -f dist/index.html
+          test -f dist/sitemap-index.xml || test -f dist/sitemap.xml
+          test -f dist/404.html
+          echo "Build output verified"
+
+      - name: Accessibility audit (axe-core)
+        run: |
+          npm install -g @axe-core/cli
+          axe-core dist/index.html --exit
+
+      - name: Run Playwright smoke tests
+        run: npx playwright test --project=chromium
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+          retention-days: 1
