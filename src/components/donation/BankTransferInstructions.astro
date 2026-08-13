@@ -1,0 +1,37 @@
+---
+const bankDetails = {
+  bankName: 'First National Bank',
+  accountName: 'Global Rescue Mission International',
+  accountNumber: '1234567890',
+  routingNumber: '011000015',
+  swiftCode: 'FNBUS33',
+  iban: 'US12 3456 7890 1234 5678 90',
+  currency: 'USD',
+};
+---
+
+<div class="bg-gray-50 rounded-xl p-8 border border-gray-200" data-aos="fade-up">
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">Bank Transfer Details</h2>
+
+  <dl class="space-y-4">
+    {
+      Object.entries(bankDetails).map(([key, value]) => (
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <dt class="text-sm font-medium text-gray-500 sm:w-40 shrink-0">
+            {key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}:
+          </dt>
+          <dd class="text-gray-900 font-mono bg-white px-3 py-2 rounded border border-gray-200 flex-grow">
+            {value}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <div class="mt-6 p-4 bg-amber-50 border-l-4 border-amber-400 rounded-r-lg">
+    <p class="text-sm text-amber-800">
+      <strong>Important:</strong> After completing your transfer, please submit the proof of transfer
+      form below so we can acknowledge your donation and send a receipt.
+    </p>
+  </div>
+</div>

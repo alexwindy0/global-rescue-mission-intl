@@ -6,76 +6,80 @@
   name="volunteer-signup"
   method="POST"
   data-netlify="true"
-  class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 space-y-6"
+  netlify-honeypot="bot-field"
+  class="space-y-6 bg-white rounded-xl p-8 border border-gray-200 shadow-sm"
+  id="volunteer-signup-form"
 >
   <input type="hidden" name="form-name" value="volunteer-signup" />
+  <p class="hidden">
+    <label for="vol-bot-field">
+      Don't fill this out: <input id="vol-bot-field" name="bot-field" />
+    </label>
+  </p>
 
   <div>
-    <h3 class="text-2xl font-bold text-gray-900 mb-2">Volunteer Signup</h3>
-    <p class="text-gray-600 text-sm">
-      Fill out the form below and our team will get in touch with you.
-    </p>
-  </div>
-
-  <div>
-    <label for="volunteer-name" class="block text-sm font-medium text-gray-700 mb-1">
-      Full Name
+    <label for="vol-name" class="block text-sm font-medium text-gray-700 mb-1">
+      Full Name <span class="text-red-500">*</span>
       <input
         type="text"
-        id="volunteer-name"
+        id="vol-name"
         name="name"
         required
-        class="w-full mt-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+        minlength="2"
+        class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
         placeholder="Your full name"
       />
     </label>
   </div>
 
   <div>
-    <label for="volunteer-email" class="block text-sm font-medium text-gray-700 mb-1">
-      Email Address
+    <label for="vol-email" class="block text-sm font-medium text-gray-700 mb-1">
+      Email Address <span class="text-red-500">*</span>
       <input
         type="email"
-        id="volunteer-email"
+        id="vol-email"
         name="email"
         required
-        class="w-full mt-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
-        placeholder="you@example.com"
+        class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+        placeholder="your@email.com"
       />
     </label>
   </div>
 
   <div>
-    <label for="volunteer-phone" class="block text-sm font-medium text-gray-700 mb-1">
+    <label for="vol-phone" class="block text-sm font-medium text-gray-700 mb-1">
       Phone Number (Optional)
       <input
         type="tel"
-        id="volunteer-phone"
+        id="vol-phone"
         name="phone"
-        class="w-full mt-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
-        placeholder="+1 (555) 000-0000"
+        class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+        placeholder="+1 (555) 123-4567"
       />
     </label>
   </div>
 
   <div>
     <fieldset>
-      <legend class="block text-sm font-medium text-gray-700 mb-2">Areas of Interest</legend>
+      <legend class="block text-sm font-medium text-gray-700 mb-2">
+        Areas of Interest <span class="text-red-500">*</span>
+      </legend>
       <div class="space-y-2">
         {
           [
-            'Medical Missions',
-            'Education & Teaching',
-            'Disaster Relief',
-            'Prayer & Outreach',
-            'Logistics & Admin',
+            'Emergency Relief',
+            'Education',
+            'Healthcare',
+            'Construction',
+            'Communications',
+            'Administration',
           ].map((interest) => (
-            <label class="flex items-center space-x-3 cursor-pointer text-gray-700 text-sm font-normal">
+            <label class="flex items-center gap-2 cursor-pointer text-gray-700 font-normal">
               <input
                 type="checkbox"
                 name="interests"
                 value={interest}
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
               />
               <span>{interest}</span>
             </label>
@@ -86,21 +90,32 @@
   </div>
 
   <div>
-    <label for="volunteer-message" class="block text-sm font-medium text-gray-700 mb-1">
-      Tell Us About Yourself
+    <label for="vol-message" class="block text-sm font-medium text-gray-700 mb-1">
+      Message (Optional)
       <textarea
-        id="volunteer-message"
+        id="vol-message"
         name="message"
         rows="4"
-        class="w-full mt-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
-        placeholder="Share your skills, experience, or availability..."></textarea>
+        class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+        placeholder="Tell us about your skills and availability..."></textarea>
     </label>
   </div>
 
   <button
     type="submit"
-    class="w-full py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+    class="w-full px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
   >
     Submit Application
   </button>
 </form>
+
+<script lang="ts">
+  const form = document.getElementById('volunteer-signup-form');
+  form?.addEventListener('submit', (e) => {
+    const checkboxes = form.querySelectorAll('input[name="interests"]:checked');
+    if (checkboxes.length === 0) {
+      e.preventDefault();
+      alert('Please select at least one area of interest.');
+    }
+  });
+</script>

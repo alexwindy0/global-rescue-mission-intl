@@ -1,0 +1,57 @@
+---
+import DonationLayout from '@layouts/DonationLayout.astro';
+import BankTransferInstructions from '@components/donation/BankTransferInstructions.astro';
+import ProofOfTransferForm from '@components/donation/ProofOfTransferForm.astro';
+
+const title = 'Donate';
+const description =
+  'Support Global Rescue Mission International. Every donation brings hope to communities in crisis.';
+---
+
+<DonationLayout title={title} description={description}>
+  <div class="max-w-4xl mx-auto space-y-12">
+    <!-- Giving Options -->
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Ways to Give</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Your generosity enables us to respond quickly to crises and build sustainable change in
+        communities around the world.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      {
+        [
+          { amount: '$25', desc: 'Provides emergency food for one family for a week' },
+          { amount: '$100', desc: 'Funds a mobile clinic visit to a remote village' },
+          { amount: '$500', desc: "Sponsors a child's education for one year" },
+        ].map((tier, i) => (
+          <div
+            class="bg-white rounded-xl p-6 border-2 border-gray-100 hover:border-blue-300 transition-colors text-center"
+            data-aos="fade-up"
+            data-aos-delay={i * 100}
+          >
+            <div class="text-3xl font-bold text-blue-900 mb-2">{tier.amount}</div>
+            <p class="text-gray-600 text-sm">{tier.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Bank Transfer Section -->
+    <BankTransferInstructions />
+
+    <!-- Proof of Transfer Form -->
+    <ProofOfTransferForm />
+
+    <!-- Tax Information -->
+    <div class="bg-green-50 border border-green-200 rounded-xl p-6" data-aos="fade-up">
+      <h3 class="text-lg font-bold text-green-900 mb-2">Tax Deductible</h3>
+      <p class="text-green-800 text-sm">
+        Global Rescue Mission International is a registered 501(c)(3) nonprofit organization. All
+        donations are tax-deductible to the fullest extent allowed by law. You will receive a
+        receipt via email for tax purposes.
+      </p>
+    </div>
+  </div>
+</DonationLayout>

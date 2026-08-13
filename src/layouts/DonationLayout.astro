@@ -12,8 +12,10 @@ const { title, description } = Astro.props;
 <BaseLayout title={title} description={description}>
   <div class="bg-blue-900 text-white py-12 md:py-16">
     <div class="container-grm text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">{title}</h1>
-      <p class="text-xl text-blue-100 max-w-2xl mx-auto">{description}</p>
+      <h1 class="text-4xl md:text-5xl font-bold">{title}</h1>
+      <p class="text-blue-100 mt-4 text-lg max-w-2xl mx-auto">
+        Every donation brings hope to communities in crisis
+      </p>
     </div>
   </div>
   <div class="container-grm py-12 md:py-16">

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionWrapper from '@components/ui/SectionWrapper.astro';
+import ContactForm from '@components/forms/ContactForm.astro';
+
+const title = 'Contact Us';
+const description =
+  'Get in touch with Global Rescue Mission International. We would love to hear from you.';
+---
+
+<BaseLayout title={title} description={description}>
+  <SectionWrapper background="blue" padding="sm">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white">{title}</h1>
+      <p class="text-blue-100 mt-4 text-lg">We are here to answer your questions</p>
+    </div>
+  </SectionWrapper>
+
+  <SectionWrapper>
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+      <ContactForm />
+    </div>
+  </SectionWrapper>
+</BaseLayout>

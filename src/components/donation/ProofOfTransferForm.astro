@@ -1,0 +1,154 @@
+---
+
+---
+
+<div
+  class="bg-white rounded-xl p-8 border border-gray-200 shadow-sm"
+  data-aos="fade-up"
+  data-aos-delay="100"
+>
+  <h2 class="text-2xl font-bold text-gray-900 mb-2">Submit Proof of Transfer</h2>
+  <p class="text-gray-600 mb-6">
+    Help us track your donation by providing the transfer details below.
+  </p>
+
+  <form
+    name="proof-of-transfer"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    class="space-y-6"
+    id="proof-of-transfer-form"
+  >
+    <input type="hidden" name="form-name" value="proof-of-transfer" />
+    <p class="hidden">
+      <label for="pot-bot-field">
+        Don't fill this out: <input id="pot-bot-field" name="bot-field" />
+      </label>
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label for="pot-name" class="block text-sm font-medium text-gray-700 mb-1">
+          Full Name <span class="text-red-500">*</span>
+          <input
+            type="text"
+            id="pot-name"
+            name="name"
+            required
+            minlength="2"
+            class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+            placeholder="John Doe"
+          />
+        </label>
+      </div>
+
+      <div>
+        <label for="pot-email" class="block text-sm font-medium text-gray-700 mb-1">
+          Email Address <span class="text-red-500">*</span>
+          <input
+            type="email"
+            id="pot-email"
+            name="email"
+            required
+            class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+            placeholder="john@example.com"
+          />
+        </label>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label for="pot-amount" class="block text-sm font-medium text-gray-700 mb-1">
+          Transfer Amount (USD) <span class="text-red-500">*</span>
+          <input
+            type="text"
+            id="pot-amount"
+            name="amount"
+            required
+            pattern="^\d+(\.\d{1,2})?$"
+            class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+            placeholder="100.00"
+          />
+        </label>
+      </div>
+
+      <div>
+        <label for="pot-reference" class="block text-sm font-medium text-gray-700 mb-1">
+          Reference Number <span class="text-red-500">*</span>
+          <input
+            type="text"
+            id="pot-reference"
+            name="referenceNumber"
+            required
+            minlength="3"
+            class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+            placeholder="TXN123456"
+          />
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <label for="pot-date" class="block text-sm font-medium text-gray-700 mb-1">
+        Transfer Date <span class="text-red-500">*</span>
+        <input
+          type="date"
+          id="pot-date"
+          name="date"
+          required
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent md:w-auto font-normal"
+        />
+      </label>
+    </div>
+
+    <div>
+      <label for="pot-notes" class="block text-sm font-medium text-gray-700 mb-1">
+        Additional Notes (Optional)
+        <textarea
+          id="pot-notes"
+          name="notes"
+          rows="3"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-normal"
+          placeholder="Any additional information about your transfer..."></textarea>
+      </label>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+    >
+      Submit Proof of Transfer
+    </button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('proof-of-transfer-form');
+  form?.addEventListener('submit', (e) => {
+    const amount = form.querySelector('[name="amount"]');
+    const amountRegex = /^\d+(\.\d{1,2})?$/;
+
+    if (
+      amount &&
+      'value' in amount &&
+      typeof amount.value === 'string' &&
+      !amountRegex.test(amount.value)
+    ) {
+      e.preventDefault();
+      if ('setCustomValidity' in amount && typeof amount.setCustomValidity === 'function') {
+        amount.setCustomValidity('Please enter a valid amount (e.g., 100 or 100.50)');
+      }
+      if ('reportValidity' in amount && typeof amount.reportValidity === 'function') {
+        amount.reportValidity();
+      }
+    } else if (
+      amount &&
+      'setCustomValidity' in amount &&
+      typeof amount.setCustomValidity === 'function'
+    ) {
+      amount.setCustomValidity('');
+    }
+  });
+</script>
