@@ -35,7 +35,7 @@
 # Do NOT duplicate CSP in netlify.toml — use _headers for granular control
 
 [context.production]
-  environment = { ASTRO_SITE_URL = "https://globalrescuemission.org" }
+  environment = { ASTRO_SITE_URL = "https://global-rescue-mission-intl.netlify.app/" }
 
 [context.staging]
   environment = { ASTRO_SITE_URL = "https://staging--globalrescuemission.netlify.app" }
