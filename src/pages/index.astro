@@ -13,50 +13,130 @@ const description =
 
 const stories = await getCollection('stories');
 const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
+
+const heroSlides = [
+  {
+    image:
+      'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1920&q=80',
+    headline: 'Bringing Hope to the Unreachable',
+    subline: 'Delivering aid, evangelism, and sustainable development to communities in crisis.',
+    cta: { label: 'Donate Now', href: '/donate' },
+  },
+  {
+    image:
+      'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1920&q=80',
+    headline: 'When Disaster Strikes, We Respond',
+    subline: 'Rapid deployment of food, water, shelter, and medical aid within 72 hours.',
+    cta: { label: 'Emergency Relief', href: '/causes' },
+  },
+  {
+    image:
+      'https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&w=1920&q=80',
+    headline: 'Every Child Deserves a Future',
+    subline: 'Building schools, training teachers, and providing scholarships worldwide.',
+    cta: { label: 'Support Education', href: '/causes' },
+  },
+];
 ---
 
 <BaseLayout title={title} description={description}>
-  <!-- Hero Section -->
-  <section class="relative bg-blue-900 text-white overflow-hidden" aria-labelledby="hero-heading">
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 opacity-90"
-    >
-    </div>
-    <div class="relative container-grm py-24 md:py-32 lg:py-40">
-      <div class="max-w-3xl">
-        <h1
-          id="hero-heading"
-          class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
-          data-aos="fade-up"
-        >
-          Bringing Hope to the <span class="text-amber-400">Unreachable</span>
-        </h1>
-        <p
-          class="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed"
-          data-aos="fade-up"
-          data-aos-delay="100"
-        >
-          Global Rescue Mission International delivers aid, evangelism, and sustainable development
-          to communities in crisis.
-        </p>
-        <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="200">
-          <CTAButton href="/donate" variant="secondary" size="lg">Donate Now</CTAButton>
-          <CTAButton
-            href="/about"
-            variant="outline"
-            size="lg"
-            class="border-white text-white hover:bg-white hover:text-blue-900"
+  <!-- Cinematic Hero Slideshow -->
+  <section class="relative h-screen w-full overflow-hidden bg-black" aria-labelledby="hero-heading">
+    <!-- Slides -->
+    <div id="hero-slides" class="absolute inset-0">
+      {
+        heroSlides.map((slide, i) => (
+          <div
+            class={`hero-slide absolute inset-0 transition-opacity duration-1000 ${i === 0 ? 'opacity-100' : 'opacity-0'}`}
+            data-slide={i}
           >
-            Learn More
-          </CTAButton>
-        </div>
-      </div>
+            <div class="hero-ken-burns absolute inset-0">
+              <img
+                src={slide.image}
+                alt=""
+                class="w-full h-full object-cover"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+            </div>
+            {/* Gradient overlay */}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50" />
+            {/* Vignette */}
+            <div
+              class="absolute inset-0"
+              style="background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);"
+            />
+            {/* Letterbox bars */}
+            <div class="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/40 to-transparent" />
+            <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/40 to-transparent" />
+            {/* Caption */}
+            <div class="hero-caption absolute inset-0 flex items-center justify-center text-center px-4">
+              <div class="max-w-4xl">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 drop-shadow-2xl leading-tight">
+                  {slide.headline}
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto drop-shadow-lg">
+                  {slide.subline}
+                </p>
+                <CTAButton
+                  href={slide.cta.href}
+                  variant="secondary"
+                  size="lg"
+                  class="hero-cta shadow-xl"
+                >
+                  {slide.cta.label}
+                </CTAButton>
+              </div>
+            </div>
+          </div>
+        ))
+      }
     </div>
-    <!-- Decorative element -->
-    <div
-      class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"
-      aria-hidden="true"
+
+    <!-- Dot indicators -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+      {
+        heroSlides.map((_, i) => (
+          <button
+            type="button"
+            class={`hero-dot w-3 h-3 rounded-full transition-all ${i === 0 ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'}`}
+            data-dot={i}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))
+      }
+    </div>
+
+    <!-- Pause/Play button -->
+    <button
+      type="button"
+      id="hero-pause-btn"
+      class="absolute bottom-6 right-6 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors flex items-center justify-center"
+      aria-label="Pause slideshow"
     >
+      <svg id="hero-pause-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+      </svg>
+      <svg id="hero-play-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"></path>
+      </svg>
+    </button>
+
+    <!-- Donation pulse CTA -->
+    <div class="absolute bottom-6 left-6 z-20 hidden md:block">
+      <a
+        href="/donate"
+        class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 text-white font-semibold rounded-full shadow-lg hover:bg-amber-600 transition-colors animate-pulse"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          ></path>
+        </svg>
+        Donate Today
+      </a>
     </div>
   </section>
 
@@ -72,8 +152,10 @@ const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
         ].map((stat, i) => (
           <LivelyScrollAnimation delay={i * 100}>
             <div class="p-4">
-              <div class="text-3xl md:text-4xl font-bold text-blue-900 mb-2">{stat.number}</div>
-              <div class="text-gray-600">{stat.label}</div>
+              <div class="text-3xl md:text-4xl font-bold text-blue-900 dark:text-blue-400 mb-2">
+                {stat.number}
+              </div>
+              <div class="text-gray-600 dark:text-gray-400">{stat.label}</div>
             </div>
           </LivelyScrollAnimation>
         ))
@@ -84,10 +166,17 @@ const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
   <!-- Featured Causes -->
   <SectionWrapper background="gray">
     <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+        data-aos="fade-up"
+      >
         Our Causes
       </h2>
-      <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+      <p
+        class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
         We focus on areas where the need is greatest and where we can make the most sustainable
         impact.
       </p>
@@ -98,28 +187,38 @@ const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
           {
             title: 'Emergency Relief',
             desc: 'Rapid response to natural disasters and conflicts.',
-            icon: '🆘',
+            image:
+              'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=600&q=80',
           },
           {
             title: 'Education',
             desc: 'Building schools and training teachers in underserved regions.',
-            icon: '📚',
+            image:
+              'https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&w=600&q=80',
           },
           {
             title: 'Healthcare',
             desc: 'Mobile clinics and medical supplies for remote communities.',
-            icon: '🏥',
+            image:
+              'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80',
           },
         ].map((cause, i) => (
           <LivelyScrollAnimation
             delay={i * 150}
-            class="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow"
+            class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group"
           >
-            <div class="text-4xl mb-4" aria-hidden="true">
-              {cause.icon}
+            <div class="aspect-video overflow-hidden">
+              <img
+                src={cause.image}
+                alt={cause.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{cause.title}</h3>
-            <p class="text-gray-600">{cause.desc}</p>
+            <div class="p-8">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">{cause.title}</h3>
+              <p class="text-gray-600 dark:text-gray-300">{cause.desc}</p>
+            </div>
           </LivelyScrollAnimation>
         ))
       }
@@ -137,10 +236,17 @@ const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
   <!-- Impact Stories Preview -->
   <SectionWrapper background="white">
     <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+        data-aos="fade-up"
+      >
         Latest Impact Stories
       </h2>
-      <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+      <p
+        class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
         Real stories from the field. See how your support is changing lives around the world.
       </p>
     </div>
@@ -168,10 +274,13 @@ const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
   <!-- Newsletter / Engagement -->
   <SectionWrapper background="gray" padding="md">
     <div class="max-w-2xl mx-auto text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4" data-aos="fade-up">
+      <h2
+        class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4"
+        data-aos="fade-up"
+      >
         Stay Connected
       </h2>
-      <p class="text-gray-600 mb-6" data-aos="fade-up" data-aos-delay="100">
+      <p class="text-gray-600 dark:text-gray-300 mb-6" data-aos="fade-up" data-aos-delay="100">
         Get daily prayer updates and mission news delivered to your inbox.
       </p>
       <form
@@ -191,7 +300,7 @@ const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
             name="email"
             placeholder="Enter your email"
             required
-            class="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-80 text-gray-900 font-normal"
+            class="px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-80 font-normal"
           />
         </label>
         <button
@@ -204,3 +313,111 @@ const featuredStories = stories.filter((s) => s.data.featured).slice(0, 3);
     </div>
   </SectionWrapper>
 </BaseLayout>
+
+<style>
+  /* Ken Burns zoom animation */
+  @keyframes kenBurns {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
+  .hero-ken-burns {
+    animation: kenBurns 7s ease-in-out infinite alternate;
+  }
+  /* Caption fade-in */
+  @keyframes captionFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .hero-slide:not(.opacity-0) .hero-caption > div {
+    animation: captionFadeIn 0.8s ease-out 0.3s both;
+  }
+  /* CTA pulse */
+  @keyframes ctaPulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 0 12px rgba(245, 158, 11, 0);
+    }
+  }
+  .hero-cta {
+    animation: ctaPulse 2s ease-in-out infinite;
+  }
+</style>
+
+<script>
+  (function () {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    const pauseBtn = document.getElementById('hero-pause-btn');
+    const pauseIcon = document.getElementById('hero-pause-icon');
+    const playIcon = document.getElementById('hero-play-icon');
+
+    let current = 0;
+    let paused = false;
+    let interval;
+    const INTERVAL_MS = 7000;
+
+    function goTo(index) {
+      slides[current].classList.replace('opacity-100', 'opacity-0');
+      dots[current].classList.remove('w-8', 'bg-white');
+      dots[current].classList.add('bg-white/50');
+      current = index;
+      slides[current].classList.replace('opacity-0', 'opacity-100');
+      dots[current].classList.add('w-8', 'bg-white');
+      dots[current].classList.remove('bg-white/50');
+      // Reset Ken Burns animation
+      const kb = slides[current].querySelector('.hero-ken-burns');
+      if (kb) {
+        kb.style.animation = 'none';
+        kb.offsetHeight; // reflow
+        kb.style.animation = '';
+      }
+    }
+
+    function next() {
+      goTo((current + 1) % slides.length);
+    }
+
+    function startAuto() {
+      clearInterval(interval);
+      interval = setInterval(next, INTERVAL_MS);
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = parseInt(dot.getAttribute('data-dot'), 10);
+        if (idx !== current) goTo(idx);
+        if (!paused) startAuto();
+      });
+    });
+
+    pauseBtn?.addEventListener('click', () => {
+      paused = !paused;
+      if (paused) {
+        clearInterval(interval);
+        pauseIcon?.classList.add('hidden');
+        playIcon?.classList.remove('hidden');
+        pauseBtn.setAttribute('aria-label', 'Play slideshow');
+      } else {
+        startAuto();
+        pauseIcon?.classList.remove('hidden');
+        playIcon?.classList.add('hidden');
+        pauseBtn.setAttribute('aria-label', 'Pause slideshow');
+      }
+    });
+
+    startAuto();
+  })();
+</script>
