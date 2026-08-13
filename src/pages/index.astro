@@ -1,29 +1,200 @@
 ---
-import '../styles/globals.css';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionWrapper from '@components/ui/SectionWrapper.astro';
+import CTAButton from '@components/ui/CTAButton.astro';
+import LivelyScrollAnimation from '@components/ui/LivelyScrollAnimation.astro';
+
+const title = 'Global Rescue Mission Intl.';
+const description =
+  'Bringing hope, aid, and the Gospel to communities in crisis around the world. Join us in making a difference.';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Global Rescue Mission Intl.</title>
-  </head>
-  <body
-    class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col justify-center items-center"
-  >
-    <main class="text-center p-8 max-w-2xl mx-auto">
-      <h1 class="text-4xl font-bold tracking-tight text-blue-900 mb-4">
-        Global Rescue Mission Intl.
-      </h1>
-      <p class="text-lg text-slate-600 mb-6">
-        A zero-cost, high-performance, accessible platform for evangelism, fundraising, and
-        community engagement.
-      </p>
-      <div class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow">
-        Baseline Setup Complete
+<BaseLayout title={title} description={description}>
+  <!-- Hero Section -->
+  <section class="relative bg-blue-900 text-white overflow-hidden" aria-labelledby="hero-heading">
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 opacity-90"
+    >
+    </div>
+    <div class="relative container-grm py-24 md:py-32 lg:py-40">
+      <div class="max-w-3xl">
+        <h1
+          id="hero-heading"
+          class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
+          data-aos="fade-up"
+        >
+          Bringing Hope to the <span class="text-amber-400">Unreachable</span>
+        </h1>
+        <p
+          class="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          Global Rescue Mission International delivers aid, evangelism, and sustainable development
+          to communities in crisis.
+        </p>
+        <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="200">
+          <CTAButton href="/donate" variant="secondary" size="lg">Donate Now</CTAButton>
+          <CTAButton
+            href="/about"
+            variant="outline"
+            size="lg"
+            class="border-white text-white hover:bg-white hover:text-blue-900"
+          >
+            Learn More
+          </CTAButton>
+        </div>
       </div>
-    </main>
-  </body>
-</html>
+    </div>
+    <!-- Decorative element -->
+    <div
+      class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+  </section>
+
+  <!-- Mission Stats -->
+  <SectionWrapper background="white" padding="md">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {
+        [
+          { number: '50+', label: 'Countries Served' },
+          { number: '100K+', label: 'Lives Impacted' },
+          { number: '500+', label: 'Volunteers' },
+          { number: '25+', label: 'Years of Service' },
+        ].map((stat, i) => (
+          <LivelyScrollAnimation delay={i * 100}>
+            <div class="p-4">
+              <div class="text-3xl md:text-4xl font-bold text-blue-900 mb-2">{stat.number}</div>
+              <div class="text-gray-600">{stat.label}</div>
+            </div>
+          </LivelyScrollAnimation>
+        ))
+      }
+    </div>
+  </SectionWrapper>
+
+  <!-- Featured Causes -->
+  <SectionWrapper background="gray">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up">
+        Our Causes
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+        We focus on areas where the need is greatest and where we can make the most sustainable
+        impact.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {
+        [
+          {
+            title: 'Emergency Relief',
+            desc: 'Rapid response to natural disasters and conflicts.',
+            icon: '🆘',
+          },
+          {
+            title: 'Education',
+            desc: 'Building schools and training teachers in underserved regions.',
+            icon: '📚',
+          },
+          {
+            title: 'Healthcare',
+            desc: 'Mobile clinics and medical supplies for remote communities.',
+            icon: '🏥',
+          },
+        ].map((cause, i) => (
+          <LivelyScrollAnimation
+            delay={i * 150}
+            class="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="text-4xl mb-4" aria-hidden="true">
+              {cause.icon}
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">{cause.title}</h3>
+            <p class="text-gray-600">{cause.desc}</p>
+          </LivelyScrollAnimation>
+        ))
+      }
+    </div>
+    <div class="text-center mt-12" data-aos="fade-up">
+      <CTAButton href="/causes" variant="primary">View All Causes</CTAButton>
+    </div>
+  </SectionWrapper>
+
+  <!-- Daily Prayer CTA -->
+  <SectionWrapper background="blue">
+    <div class="text-center max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" data-aos="fade-up">
+        Daily Prayer Summaries
+      </h2>
+      <p class="text-lg text-blue-100 mb-8" data-aos="fade-up" data-aos-delay="100">
+        Join our global prayer community. Every day at midnight, we publish a new prayer focus for
+        our mission fields.
+      </p>
+      <CTAButton
+        href="/blog"
+        variant="secondary"
+        size="lg"
+        class="bg-white text-blue-900 hover:bg-gray-100"
+      >
+        Read Today's Prayer
+      </CTAButton>
+    </div>
+  </SectionWrapper>
+
+  <!-- Impact Stories Preview -->
+  <SectionWrapper background="white">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up">
+        Latest Impact Stories
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+        Real stories from the field. See how your support is changing lives around the world.
+      </p>
+    </div>
+    <div class="text-center mt-12" data-aos="fade-up">
+      <CTAButton href="/blog" variant="outline">Read All Stories</CTAButton>
+    </div>
+  </SectionWrapper>
+
+  <!-- Newsletter / Engagement -->
+  <SectionWrapper background="gray" padding="md">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4" data-aos="fade-up">
+        Stay Connected
+      </h2>
+      <p class="text-gray-600 mb-6" data-aos="fade-up" data-aos-delay="100">
+        Get daily prayer updates and mission news delivered to your inbox.
+      </p>
+      <form
+        name="newsletter"
+        method="POST"
+        data-netlify="true"
+        class="flex flex-col sm:flex-row gap-3 justify-center"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <input type="hidden" name="form-name" value="newsletter" />
+        <label for="email-newsletter" class="sr-only">
+          Email address
+          <input
+            id="email-newsletter"
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+            class="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-80 text-gray-900 font-normal"
+          />
+        </label>
+        <button
+          type="submit"
+          class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </SectionWrapper>
+</BaseLayout>

@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionWrapper from '@components/ui/SectionWrapper.astro';
+
+const title = 'Our Programs';
+const description = 'Discover our ongoing programs and initiatives around the world.';
+---
+
+<BaseLayout title={title} description={description}>
+  <SectionWrapper background="blue" padding="sm">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white">{title}</h1>
+      <p class="text-blue-100 mt-4 text-lg">Sustainable initiatives for lasting change</p>
+    </div>
+  </SectionWrapper>
+
+  <SectionWrapper>
+    <div class="space-y-16 max-w-4xl mx-auto">
+      {
+        [
+          {
+            title: 'Midnight Prayer Network',
+            desc: 'A global community praying together every day at midnight for our mission fields. Join thousands of believers worldwide in united prayer.',
+            status: 'Active',
+          },
+          {
+            title: 'Child Sponsorship Program',
+            desc: "Sponsor a child's education, nutrition, and healthcare for just $40/month. Receive updates and letters from your sponsored child.",
+            status: 'Active',
+          },
+          {
+            title: 'Volunteer Deployment',
+            desc: 'Short-term and long-term volunteer opportunities in medical, educational, and construction missions. Training provided.',
+            status: 'Recruiting',
+          },
+          {
+            title: 'Disaster Response Team',
+            desc: 'Rapid response units trained and ready to deploy within 72 hours of a natural disaster or conflict outbreak.',
+            status: 'Active',
+          },
+        ].map((program, i) => (
+          <div
+            class="flex flex-col md:flex-row gap-8 items-start"
+            data-aos="fade-up"
+            data-aos-delay={i * 100}
+          >
+            <div class="md:w-1/3">
+              <div class="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+                <span class="text-4xl" aria-hidden="true">
+                  📋
+                </span>
+              </div>
+            </div>
+            <div class="md:w-2/3">
+              <div class="flex items-center gap-3 mb-2">
+                <h2 class="text-2xl font-bold text-gray-900">{program.title}</h2>
+                <span
+                  class={`
+                px-3 py-1 rounded-full text-xs font-semibold
+                ${program.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}
+              `}
+                >
+                  {program.status}
+                </span>
+              </div>
+              <p class="text-gray-600 text-lg">{program.desc}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </SectionWrapper>
+</BaseLayout>

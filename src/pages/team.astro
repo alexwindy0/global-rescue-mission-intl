@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionWrapper from '@components/ui/SectionWrapper.astro';
+import teamData from '../data/team-members.json';
+
+const title = 'Our Team';
+const description =
+  'Meet the dedicated leaders and volunteers behind Global Rescue Mission International.';
+---
+
+<BaseLayout title={title} description={description}>
+  <SectionWrapper background="blue" padding="sm">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white">{title}</h1>
+      <p class="text-blue-100 mt-4 text-lg">Dedicated servants making a global impact</p>
+    </div>
+  </SectionWrapper>
+
+  <SectionWrapper>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        teamData.members.map((member, i) => (
+          <div
+            class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            data-aos="fade-up"
+            data-aos-delay={i * 100}
+          >
+            <div class="aspect-square bg-gray-200 flex items-center justify-center">
+              <span class="text-6xl" aria-hidden="true">
+                👤
+              </span>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900">{member.name}</h3>
+              <p class="text-blue-600 font-medium mb-3">{member.role}</p>
+              <p class="text-gray-600 text-sm">{member.bio}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </SectionWrapper>
+</BaseLayout>

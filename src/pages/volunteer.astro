@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionWrapper from '@components/ui/SectionWrapper.astro';
+import VolunteerSignup from '@components/forms/VolunteerSignup.astro';
+
+const title = 'Volunteer With Us';
+const description =
+  'Join our global network of volunteers and make a direct impact in communities in crisis.';
+---
+
+<BaseLayout title={title} description={description}>
+  <SectionWrapper background="blue" padding="sm">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white">{title}</h1>
+      <p class="text-blue-100 mt-4 text-lg">Your skills can change lives</p>
+    </div>
+  </SectionWrapper>
+
+  <SectionWrapper>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+      <div data-aos="fade-right">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">Why Volunteer?</h2>
+        <ul class="space-y-4">
+          {
+            [
+              'Direct impact in communities that need you most',
+              'Professional training and support provided',
+              'Short-term (1-2 weeks) and long-term (6+ months) opportunities',
+              'Join a global community of like-minded servants',
+              'All expenses covered for approved deployments',
+            ].map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="text-green-500 text-xl mt-0.5" aria-hidden="true">
+                  ✓
+                </span>
+                <span class="text-gray-700">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div data-aos="fade-left">
+        <VolunteerSignup />
+      </div>
+    </div>
+  </SectionWrapper>
+</BaseLayout>

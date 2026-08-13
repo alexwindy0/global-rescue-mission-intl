@@ -1,0 +1,34 @@
+{
+  "members": [
+    {
+      "name": "Pastor John Doe",
+      "role": "Founder & CEO",
+      "bio": "With over 20 years of missionary experience, Pastor John founded GRM with a vision to reach the unreachable."
+    },
+    {
+      "name": "Sarah Johnson",
+      "role": "Director of Operations",
+      "bio": "Sarah oversees all field operations and ensures every project meets our high standards of impact."
+    },
+    {
+      "name": "Michael Chen",
+      "role": "Finance Director",
+      "bio": "Michael brings 15 years of nonprofit financial management expertise to ensure transparent stewardship."
+    },
+    {
+      "name": "Dr. Amina Okafor",
+      "role": "Medical Director",
+      "bio": "Dr. Amina leads our mobile clinic initiatives across sub-Saharan Africa."
+    },
+    {
+      "name": "David Kim",
+      "role": "Communications Director",
+      "bio": "David manages our storytelling and donor relations, connecting supporters to the field."
+    },
+    {
+      "name": "Rebecca Martinez",
+      "role": "Volunteer Coordinator",
+      "bio": "Rebecca recruits, trains, and deploys volunteers to mission fields worldwide."
+    }
+  ]
+}

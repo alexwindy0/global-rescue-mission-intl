@@ -5,7 +5,11 @@ module.exports = {
     node: true,
     es2022: true,
   },
-  extends: ['eslint:recommended', 'plugin:astro/recommended', 'plugin:jsx-a11y/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:astro/recommended',
+    'plugin:jsx-a11y/recommended',
+  ],
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
@@ -22,7 +26,10 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       parser: '@typescript-eslint/parser',
-      extends: ['plugin:@typescript-eslint/recommended', 'plugin:@typescript-eslint/strict'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/strict',
+      ],
       rules: {
         '@typescript-eslint/triple-slash-reference': 'off',
       },
@@ -32,7 +39,15 @@ module.exports = {
   rules: {
     'jsx-a11y/alt-text': 'error',
     'jsx-a11y/anchor-is-valid': 'error',
-    'jsx-a11y/label-has-associated-control': 'error',
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        labelComponents: ['label'],
+        labelAttributes: ['htmlFor', 'for'],
+        controlComponents: ['input', 'select', 'textarea'],
+        depth: 3,
+      },
+    ],
     'no-console': ['warn', { allow: ['error'] }],
   },
 };
