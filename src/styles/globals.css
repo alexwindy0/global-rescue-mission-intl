@@ -1,3 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #1e40af;
+    --color-primary-dark: #1e3a8a;
+    --color-secondary: #f59e0b;
+    --color-accent: #10b981;
+    --color-text: #1f2937;
+    --color-text-light: #6b7280;
+    --color-background: #ffffff;
+    --color-background-alt: #f3f4f6;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-gray-900 antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+
+  p { @apply leading-relaxed; }
+
+  a { @apply text-blue-700 hover:text-blue-900 transition-colors; }
+
+  img { @apply max-w-full h-auto; }
+}
+
+@layer components {
+  .container-grm {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

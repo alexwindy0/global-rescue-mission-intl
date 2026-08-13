@@ -1,0 +1,14 @@
+---
+interface Props {
+  animation?: 'fade-up' | 'fade-left' | 'fade-right' | 'zoom-in';
+  delay?: number;
+  duration?: number;
+  class?: string;
+}
+
+const { animation = 'fade-up', delay = 0, duration = 1000, class: className = '' } = Astro.props;
+---
+
+<div data-aos={animation} data-aos-delay={delay} data-aos-duration={duration} class={className}>
+  <slot />
+</div>

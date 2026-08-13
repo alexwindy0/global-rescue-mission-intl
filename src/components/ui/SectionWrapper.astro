@@ -1,0 +1,36 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+  background?: 'white' | 'gray' | 'blue';
+  padding?: 'sm' | 'md' | 'lg';
+}
+
+const { id, class: className = '', background = 'white', padding = 'lg' } = Astro.props;
+
+const backgrounds = {
+  white: 'bg-white',
+  gray: 'bg-gray-50',
+  blue: 'bg-blue-900 text-white',
+};
+
+const paddings = {
+  sm: 'py-8',
+  md: 'py-16',
+  lg: 'py-24',
+};
+---
+
+<section
+  id={id}
+  class={`
+    ${backgrounds[background]}
+    ${paddings[padding]}
+    ${className}
+  `}
+  data-aos="fade-up"
+>
+  <div class="container-grm">
+    <slot />
+  </div>
+</section>

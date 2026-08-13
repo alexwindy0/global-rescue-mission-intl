@@ -1,0 +1,32 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  date?: Date | string;
+  author?: string;
+}
+
+const { title, description, image, date, author } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image} type="article">
+  <article class="container-grm py-12 md:py-16 max-w-4xl">
+    <header class="mb-8">
+      <h1 class="text-3xl md:text-5xl font-extrabold text-blue-900 mb-4">{title}</h1>
+      {
+        (author || date) && (
+          <div class="flex items-center text-sm text-gray-600 space-x-4">
+            {author && <span>By {author}</span>}
+            {date && <span>{new Date(date).toLocaleDateString()}</span>}
+          </div>
+        )
+      }
+    </header>
+    <div class="prose max-w-none text-gray-800">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
