@@ -241,12 +241,20 @@ const serializedPages = pages
       return `---\ntitle: ${escapeYaml(data.title)}\ndescription: ${escapeYaml(data.description)}\nlastUpdated: ${date}\ndraft: ${data.draft ? 'true' : 'false'}\n---\n\n${body.trim()}\n`;
     }
 
-    function getAuthToken() {
+    async function getAuthToken() {
       const user = window.netlifyIdentity?.currentUser?.();
-      if (!user || !user.token || !user.token.access_token) {
-        return null;
-      }
-      return user.token.access_token;
+      if (!user) return null;
+
+      // Refresh the token if it's expired or about to expire
+      return new Promise((resolve) => {
+        user.jwt(true, false, (error, token) => {
+          if (error || !token) {
+            resolve(null);
+          } else {
+            resolve(token);
+          }
+        });
+      });
     }
 
     function renderPageList() {
@@ -335,7 +343,7 @@ const serializedPages = pages
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      const token = getAuthToken();
+      const token = await getAuthToken();
       if (!token) {
         if (saveStatus) {
           saveStatus.textContent =
