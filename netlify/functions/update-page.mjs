@@ -81,67 +81,63 @@ async function updateGithubFile(filePath, content, sha) {
   return response.json();
 }
 
-export const handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: 'Method not allowed' }),
-    };
+function buildResponse(statusCode, payload) {
+  return {
+    statusCode,
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+}
+
+async function handleUpdatePage(event) {
+  const method = event.httpMethod || 'GET';
+  if (method !== 'POST') {
+    return buildResponse(405, {
+      error: 'Method not allowed.',
+      message: 'This endpoint requires POST requests from the admin dashboard. Direct browser GET requests are not valid for saving content.',
+      expectedMethod: 'POST',
+    });
   }
 
   try {
     const token = parseTokenFromRequest(event);
     if (!token) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ error: 'Missing Authorization Bearer token' }),
-      };
+      return buildResponse(401, { error: 'Missing Authorization Bearer token' });
     }
 
     if (!NETLIFY_IDENTITY_JWT_SECRET) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          error: 'NETLIFY_IDENTITY_JWT_SECRET is not configured in Netlify environment settings.',
-        }),
-      };
+      return buildResponse(500, {
+        error: 'NETLIFY_IDENTITY_JWT_SECRET is not configured in Netlify environment settings.',
+      });
     }
 
     let decoded;
     try {
       decoded = jwt.verify(token, NETLIFY_IDENTITY_JWT_SECRET);
     } catch (err) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({
-          error: err instanceof Error ? err.message : 'Authentication failed',
-        }),
-      };
+      return buildResponse(401, {
+        error: err instanceof Error ? err.message : 'Authentication failed',
+      });
     }
 
     if (!decoded || typeof decoded !== 'object') {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ error: 'Invalid token payload' }),
-      };
+      return buildResponse(401, { error: 'Invalid token payload' });
     }
 
     const email = (decoded.email || decoded.user_metadata?.email || '').toLowerCase();
     const allowedEmails = getAllowedEmails();
     if (allowedEmails.length > 0 && !allowedEmails.includes(email)) {
-      return {
-        statusCode: 403,
-        body: JSON.stringify({ error: 'This Netlify user is not allowed to edit content.' }),
-      };
+      return buildResponse(403, {
+        error: 'This Netlify user is not allowed to edit content.',
+      });
     }
 
     if (!GITHUB_TOKEN || !GITHUB_REPOSITORY) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          error: 'GITHUB_TOKEN and GITHUB_REPOSITORY must be set in Netlify environment settings.',
-        }),
-      };
+      return buildResponse(500, {
+        error: 'GITHUB_TOKEN and GITHUB_REPOSITORY must be set in Netlify environment settings.',
+      });
     }
 
     const payload = JSON.parse(event.body || '{}');
@@ -149,10 +145,9 @@ export const handler = async (event) => {
     const pageId = sanitizePageId(payload.id);
 
     if (!pageId || !title || !body) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Missing valid page id, title, or body content.' }),
-      };
+      return buildResponse(400, {
+        error: 'Missing valid page id, title, or body content.',
+      });
     }
 
     const filePath = `src/content/pages/${pageId}.mdx`;
@@ -162,21 +157,37 @@ export const handler = async (event) => {
     const sha = await fetchGithubFileSha(filePath);
     const result = await updateGithubFile(filePath, content, sha);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: `Updated ${pageId}.mdx successfully via GitHub.`,
-        commitSha: result?.commit?.sha || null,
-        filePath,
-        user: email || 'authenticated-user',
-      }),
-    };
+    return buildResponse(200, {
+      message: `Updated ${pageId}.mdx successfully via GitHub.`,
+      commitSha: result?.commit?.sha || null,
+      filePath,
+      user: email || 'authenticated-user',
+    });
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error: error instanceof Error ? error.message : 'Server error while saving page',
-      }),
-    };
+    return buildResponse(500, {
+      error: error instanceof Error ? error.message : 'Server error while saving page',
+    });
   }
-};
+}
+
+export async function handler(req) {
+  const headers = {};
+  if (req && typeof req.headers?.entries === 'function') {
+    for (const [key, value] of req.headers.entries()) {
+      headers[key] = value;
+    }
+  }
+
+  const method = req?.method || req?.httpMethod || 'GET';
+  const bodyText = req && typeof req.text === 'function' ? await req.text() : '';
+
+  const event = {
+    httpMethod: method,
+    headers,
+    body: bodyText,
+  };
+
+  return handleUpdatePage(event);
+}
+
+export const handlerLegacy = async (event) => handleUpdatePage(event);
