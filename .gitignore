@@ -35,3 +35,6 @@ test-results/
 # Cache
 .eslintcache
 .prettiercache
+
+# Local Netlify folder
+.netlify

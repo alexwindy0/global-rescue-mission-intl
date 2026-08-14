@@ -134,6 +134,7 @@ const serializedPages = pages
                 <button
                   type="submit"
                   id="save-page"
+                  data-save-page
                   class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-400"
                 >
                   Save page
@@ -202,6 +203,16 @@ const serializedPages = pages
             >
               Select a page to begin updating content.
             </div>
+
+            <div class="flex justify-end">
+              <button
+                type="submit"
+                data-save-page
+                class="rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-amber-400"
+              >
+                Save page
+              </button>
+            </div>
           </form>
         </main>
       </div>
@@ -227,6 +238,7 @@ const serializedPages = pages
     const editorTitle = document.getElementById('editor-title');
     const saveStatus = document.getElementById('save-status');
     const downloadButton = document.getElementById('download-mdx');
+    const saveButtons = document.querySelectorAll('[data-save-page]');
 
     let selectedId = pages[0]?.id || '';
     let netlifyUser = null;
@@ -245,7 +257,6 @@ const serializedPages = pages
       const user = window.netlifyIdentity?.currentUser?.();
       if (!user) return null;
 
-      // Refresh the token if it's expired or about to expire
       return new Promise((resolve) => {
         user.jwt(true, false, (error, token) => {
           if (error || !token) {
@@ -340,8 +351,10 @@ const serializedPages = pages
       window.netlifyIdentity.init();
     }
 
-    form?.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    async function savePage(event) {
+      if (event) {
+        event.preventDefault();
+      }
 
       const token = await getAuthToken();
       if (!token) {
@@ -367,6 +380,10 @@ const serializedPages = pages
 
       if (saveStatus) {
         saveStatus.textContent = 'Authenticated save in progress…';
+        saveButtons.forEach((button) => {
+          button.disabled = true;
+          button.textContent = 'Saving...';
+        });
       }
 
       try {
@@ -379,7 +396,7 @@ const serializedPages = pages
           body: JSON.stringify(payload),
         });
 
-        const result = await response.json();
+        const result = await response.json().catch(() => ({}));
 
         if (!response.ok) {
           throw new Error(result?.error || 'Function rejected the save');
@@ -390,6 +407,11 @@ const serializedPages = pages
             result?.message || 'Page saved successfully through Netlify function.';
         }
       } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : 'Save failed. Your Netlify environment variables may be missing or invalid.';
+
         const fileContents = buildMdxContent(payload);
         const blob = new Blob([fileContents], { type: 'text/markdown;charset=utf-8' });
         const url = URL.createObjectURL(blob);
@@ -400,9 +422,19 @@ const serializedPages = pages
         URL.revokeObjectURL(url);
 
         if (saveStatus) {
-          saveStatus.textContent = `${error instanceof Error ? error.message : 'Save failed'}. A local MDX file was downloaded instead.`;
+          saveStatus.textContent = `${message}. A local MDX file was downloaded instead.`;
         }
+      } finally {
+        saveButtons.forEach((button) => {
+          button.disabled = false;
+          button.textContent = 'Save page';
+        });
       }
+    }
+
+    form?.addEventListener('submit', savePage);
+    saveButtons.forEach((button) => {
+      button.addEventListener('click', savePage);
     });
 
     downloadButton?.addEventListener('click', () => {
