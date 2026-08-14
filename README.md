@@ -6,12 +6,11 @@ A zero-cost, high-performance, accessible website for evangelism, fundraising, a
 
 - **Framework:** Astro v5 (Zero-JS by default)
 - **Styling:** Tailwind CSS v3
-- **Content:** MDX with TypeScript collections
-- **CMS:** Custom admin dashboard (Netlify Identity + GitHub-backed content updates)
+- **Content:** MDX with TypeScript collections (edited directly, committed to Git)
 - **Hosting:** Netlify (Global CDN)
 - **Animations:** AOS (Animate On Scroll)
 - **Forms:** Netlify Forms (serverless)
-- **Auth:** Netlify Identity + custom admin dashboard
+- **Auth:** Netlify Identity (future admin dashboard)
 - **Analytics:** Google Analytics via GTM
 
 ## Prerequisites
@@ -39,15 +38,32 @@ npm run build
 # Output in dist/
 ```
 
-## Content Management (Custom Admin)
+## Content Management (Direct Editing)
 
-1. Navigate to `https://globalrescuemission.org/admin`
-2. Log in with your Netlify Identity credentials
-3. Configure the environment values for the custom CMS save function in Netlify
-4. Visit `/admin` to manage page content from the browser UI
-5. Save changes — the admin writes directly to the GitHub repository through the secure Netlify function
-6. Review the Deploy Preview URL
-7. Publish to merge to `main` and deploy to production
+Content is stored as MDX files in `src/content/`:
+
+1. **Edit locally:**
+   - Open `src/content/pages/*.mdx` in your editor
+   - Update frontmatter (title, description, draft flag, etc.)
+   - Edit body content in MDX format
+   - Save and commit to Git
+
+2. **Deploy changes:**
+   - Push to any branch → Netlify creates a Deploy Preview
+   - Merge to `main` → Automatic production deployment
+   - No additional steps — Netlify watches GitHub and rebuilds automatically
+
+3. **Page frontmatter example:**
+   ```yaml
+   ---
+   title: About Us
+   description: Learn more about Global Rescue Mission
+   lastUpdated: 2026-08-14
+   draft: false
+   ---
+   ```
+
+> **Future:** A web-based admin dashboard is planned (infrastructure exists in `/src/pages/admin.astro` and `netlify/functions/update-page.mjs`). For now, edit files directly in your code editor.
 
 ## Branching Strategy
 
