@@ -80,4 +80,198 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Professional Typography for Page Content */
+  .prose-refined {
+    @apply max-w-4xl mx-auto;
+  }
+
+  .prose-refined h1 {
+    @apply text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight tracking-tight;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .prose-refined h2 {
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold mt-10 mb-5 leading-tight tracking-tight;
+    @apply text-gray-900 dark:text-white;
+    border-bottom: 3px solid #f59e0b;
+    padding-bottom: 0.75rem;
+  }
+
+  .prose-refined h3 {
+    @apply text-xl sm:text-2xl md:text-3xl font-semibold mt-8 mb-4 leading-tight;
+    @apply text-gray-800 dark:text-gray-100;
+  }
+
+  .prose-refined h4, .prose-refined h5, .prose-refined h6 {
+    @apply font-semibold mt-6 mb-3;
+    @apply text-gray-800 dark:text-gray-100;
+  }
+
+  .prose-refined p {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed;
+    @apply text-base sm:text-lg;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose-refined p:first-of-type {
+    @apply text-lg sm:text-xl font-medium;
+    @apply text-gray-800 dark:text-gray-200;
+    letter-spacing: 0.4px;
+  }
+
+  .prose-refined strong {
+    @apply font-bold text-gray-900 dark:text-white;
+  }
+
+  .prose-refined em {
+    @apply italic text-gray-800 dark:text-gray-200;
+  }
+
+  .prose-refined ul, .prose-refined ol {
+    @apply my-6 pl-6 space-y-3;
+  }
+
+  .prose-refined li {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed;
+    @apply text-base sm:text-lg;
+    margin-left: 1.5rem;
+  }
+
+  .prose-refined ul li {
+    position: relative;
+    padding-left: 1rem;
+  }
+
+  .prose-refined ul li:before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #f59e0b;
+    font-weight: bold;
+  }
+
+  .prose-refined ol li {
+    @apply font-semibold;
+  }
+
+  .prose-refined blockquote {
+    @apply border-l-4 border-blue-500 pl-6 py-2 italic;
+    @apply text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/30;
+    @apply rounded-r-lg my-6 px-6;
+  }
+
+  .prose-refined a {
+    @apply text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300;
+    @apply font-medium underline underline-offset-2 transition-colors;
+  }
+
+  .prose-refined code {
+    @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm;
+    @apply text-red-600 dark:text-red-400 font-mono;
+  }
+
+  .prose-refined pre {
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6;
+  }
+
+  .prose-refined hr {
+    @apply my-8 border-gray-300 dark:border-gray-600;
+  }
+
+  .prose-refined table {
+    @apply w-full my-6 border-collapse;
+  }
+
+  .prose-refined th {
+    @apply bg-gray-100 dark:bg-gray-800 px-4 py-3 text-left font-semibold;
+    @apply text-gray-900 dark:text-white border-b-2 border-gray-300 dark:border-gray-700;
+  }
+
+  .prose-refined td {
+    @apply px-4 py-3 border-b border-gray-200 dark:border-gray-700;
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  /* Content Wrapper with elegant spacing */
+  .content-wrapper {
+    @apply py-8 sm:py-12 md:py-16;
+  }
+
+  .content-section {
+    @apply mb-10 sm:mb-14 md:mb-16;
+  }
+
+  .content-highlight {
+    @apply bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20;
+    @apply border-l-4 border-blue-500 p-6 rounded-r-lg my-6;
+  }
+
+  .content-callout {
+    @apply bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500;
+    @apply p-6 rounded-r-lg my-6;
+  }
+
+  /* Responsive container for text content */
+  .text-container {
+    @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Large screen optimization */
+  @media (min-width: 1024px) {
+    .prose-refined {
+      @apply max-w-5xl;
+    }
+
+    .prose-refined p {
+      @apply text-lg;
+      line-height: 1.9;
+    }
+
+    .prose-refined h1 {
+      @apply text-6xl;
+    }
+
+    .prose-refined h2 {
+      @apply text-5xl;
+    }
+
+    .prose-refined h3 {
+      @apply text-3xl;
+    }
+  }
+
+  /* Mobile optimization */
+  @media (max-width: 640px) {
+    .prose-refined {
+      @apply max-w-full px-4;
+    }
+
+    .prose-refined p {
+      @apply text-base leading-relaxed;
+      letter-spacing: 0.2px;
+    }
+
+    .prose-refined h1 {
+      @apply text-3xl;
+    }
+
+    .prose-refined h2 {
+      @apply text-2xl;
+    }
+
+    .prose-refined h3 {
+      @apply text-xl;
+    }
+
+    .content-wrapper {
+      @apply py-6 sm:py-8;
+    }
+  }
 }
+
